@@ -1,0 +1,115 @@
+/**
+ * styles/variables.css
+ * CSS Custom Properties for the Quranic Prayers app.
+ * Import this file first in your stylesheets.
+ */
+
+:root {
+  /* ==========================================
+     Color Palette
+     ========================================== */
+
+  /* Primary colors */
+  --primary-color: #333333;
+  --primary-light: #555555;
+
+  /* Text colors */
+  --text-primary: #272727;
+  --text-secondary: #555555;
+
+  /* Background colors */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f9fa;
+  --bg-cream: #ffffff;
+  --bg-hover: #f0f0f0;
+
+  /* Card and surface colors */
+  --card-bg: #ffffff;
+
+  /* Border colors */
+  --border-color: #e0e0e0;
+
+  /* Accent colors (reserved for future use) */
+  --accent-gold: #333333;
+
+  /* ==========================================
+     Shadows
+     ========================================== */
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.12);
+  --shadow-elevated: 0 8px 24px rgba(0, 0, 0, 0.15);
+
+  /* ==========================================
+     Typography
+     ========================================== */
+  --font-family-base:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
+  --font-family-arabic:
+    "IndoPak", "Noto Nastaliq Urdu", "Noto Naskh Arabic", serif;
+  --font-family-urdu:
+    "Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", "Mehr Nastaliq", sans-serif;
+  --font-family-hindi: "Noto Sans Devanagari", "Mangal", sans-serif;
+
+  /* ==========================================
+     Spacing
+     ========================================== */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+
+  /* ==========================================
+     Border Radius
+     ========================================== */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-pill: 25px;
+
+  /* ==========================================
+     Transitions
+     ========================================== */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.2s ease;
+  --transition-slow: 0.3s ease;
+
+  /* ==========================================
+     Button Colors (Light Theme)
+     ========================================== */
+  /* Default state - white */
+  --btn-bg-default: #ffffff;
+  --btn-border-default: #cccccc;
+  --btn-text-default: #333333;
+
+  /* Hover state (unselected) - light grey */
+  --btn-bg-hover: #ebebeb;
+  --btn-border-hover: #999999;
+
+  /* Selected/Active state - grey */
+  --btn-bg-active: #d9d9d9;
+  --btn-border-active: #555555;
+  --btn-text-active: #272727;
+
+  /* Hover state (selected) - darker grey */
+  --btn-bg-active-hover: #c9c9c9;
+  --btn-border-active-hover: #444444;
+
+  /* Disabled state */
+  --btn-bg-disabled: #f5f5f5;
+  --btn-border-disabled: #e0e0e0;
+  --btn-text-disabled: #999999;
+
+  /* ==========================================
+     Z-Index Scale
+     ========================================== */
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-fixed: 300;
+  --z-modal-backdrop: 400;
+  --z-modal: 500;
+  --z-tooltip: 600;
+}

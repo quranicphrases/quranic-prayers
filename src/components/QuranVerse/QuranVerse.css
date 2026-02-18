@@ -1,0 +1,430 @@
+/* ═══════════════════════════════════════════════════════════
+   QuranVerse – native embed-style component
+   Mirrors the look & feel of the quran.com iframe embed
+   ═══════════════════════════════════════════════════════════ */
+
+/* ---------- Self-hosted fonts ---------- */
+@font-face {
+  font-family: "IndoPak";
+  src:
+    local("AlQuran IndoPak by QuranWBW"),
+    url("/fonts/indopak-nastaleeq.woff2") format("woff2");
+  font-display: swap;
+}
+
+/* ---------- Container ---------- */
+.quran-verse {
+  background: transparent;
+  overflow: hidden;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+}
+
+/* ---------- Arabic section ---------- */
+.qv-arabic-section {
+  padding: 1.8rem 1.5rem 1.2rem;
+  margin: 0 -1.5rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+.qv-verse-block + .qv-verse-block {
+  margin-top: 1rem;
+}
+
+/* Dimmed text for partial verses (block-level) */
+.qv-dimmed {
+  opacity: 0.5;
+}
+
+/* Dimmed text for partial verses (inline) */
+.qv-dimmed-inline {
+  opacity: 0.5;
+}
+
+/* Inline verse reference delimiter in translations */
+.qv-inline-verse-ref {
+  display: inline;
+  font-size: 0.8em;
+  color: #495057;
+  font-weight: 600;
+  margin-right: 0.15em;
+}
+
+/* Normal Arabic text */
+.qv-arabic-text {
+  font-family: "IndoPak", "Noto Nastaliq Urdu", "Noto Naskh Arabic", serif;
+  font-size: 1.85rem;
+  line-height: 3.2;
+  text-align: center;
+  color: #272727;
+  margin: 0;
+  word-spacing: 0.15em;
+  letter-spacing: 0.02em;
+}
+
+/* End-of-Ayah marker stack: waqf mark + circle + verse number */
+.qv-ayah-marker {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  vertical-align: middle;
+  margin: 0 0.15em;
+  line-height: 1;
+  gap: 0;
+}
+
+.qv-ayah-waqf {
+  font-family: "IndoPak", "Noto Naskh Arabic", serif;
+  font-size: 1.3em;
+  font-weight: 700;
+  color: #333333;
+  line-height: 1;
+  height: 0.8em;
+  margin-bottom: -0.6em;
+  margin-right: -0.6em;
+  display: flex;
+  align-items: flex-end;
+}
+
+/* End-of-Ayah circle */
+.qv-ayah-end {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.6em;
+  height: 1.6em;
+  border: 2px solid #333333;
+  border-radius: 50%;
+  font-size: 0.6em;
+  font-family: "Noto Naskh Arabic", sans-serif;
+  color: #333333;
+  line-height: 1;
+  direction: ltr;
+}
+
+.qv-ayah-num {
+  font-size: 0.45em;
+  color: #555555;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+  line-height: 1;
+  direction: ltr;
+}
+
+/* ---------- Word-by-word ---------- */
+.qv-wbw-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem 1rem;
+  padding: 0.4rem 0;
+}
+
+.qv-wbw-word {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  min-width: 60px;
+  padding: 0.5rem 0.6rem;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+}
+
+.qv-wbw-word:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.qv-wbw-arabic {
+  font-family: "IndoPak", "Noto Nastaliq Urdu", "Noto Naskh Arabic", serif;
+  font-size: 1.55rem;
+  color: #272727;
+  line-height: 2.2;
+}
+
+.qv-wbw-transliteration {
+  font-size: 0.68rem;
+  color: #555555;
+  text-align: center;
+  line-height: 1.2;
+  direction: ltr;
+  font-style: italic;
+  max-width: 110px;
+  word-wrap: break-word;
+}
+
+.qv-wbw-translation {
+  font-size: 0.72rem;
+  color: #4a4a4a;
+  text-align: center;
+  line-height: 1.3;
+  direction: ltr;
+  max-width: 110px;
+  word-wrap: break-word;
+}
+
+.qv-wbw-verse-num {
+  opacity: 0.7;
+  align-self: center;
+  justify-content: center;
+  min-width: auto;
+  padding: 0;
+}
+
+.qv-wbw-verse-num .qv-ayah-marker {
+  font-size: 1.6rem;
+}
+
+.qv-wbw-verse-num .qv-ayah-end {
+  width: 2em;
+  height: 2em;
+  font-size: 0.7em;
+  border-width: 2.5px;
+}
+
+.qv-wbw-verse-num .qv-ayah-num {
+  font-size: 0.5em;
+}
+
+.qv-wbw-verse-num .qv-ayah-waqf {
+  font-size: 1.5em;
+}
+
+/* ---------- Divider ---------- */
+.qv-divider {
+  height: 1px;
+  margin: 0 -1.5rem;
+  padding: 0 1.5rem;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--border-color, #e0e0e0) 10%,
+    var(--border-color, #e0e0e0) 90%,
+    transparent 100%
+  );
+}
+
+/* ---------- Translations section ---------- */
+.qv-translations-section {
+  padding: 1rem 1.5rem 1.2rem;
+  margin: 0 -1.5rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.qv-verse-translations {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.qv-translation {
+  padding: 0.9rem 0;
+  background: transparent;
+  border-bottom: 1px solid var(--border-color, #e0e0e0);
+}
+
+.qv-translation:last-child {
+  border-bottom: none;
+}
+
+.qv-translation-text {
+  margin: 0 0 0.4rem;
+  line-height: 1.85;
+  color: #272727;
+  text-align: center;
+}
+
+/* RTL verse-ref delimiter (Urdu) */
+[dir="rtl"] .qv-inline-verse-ref {
+  margin-right: 0;
+  margin-left: 0.15em;
+}
+
+/* Language-specific typography */
+.qv-lang-en .qv-translation-text {
+  font-size: 0.98rem;
+  font-family: "Georgia", "Times New Roman", serif;
+}
+
+.qv-lang-ur .qv-translation-text {
+  font-family:
+    "Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", "Mehr Nastaliq",
+    "Nafees Nastaleeq", serif;
+  font-size: 1.15rem;
+  line-height: 2.8;
+}
+
+.qv-lang-hi .qv-translation-text {
+  font-family: "Noto Sans Devanagari", "Mangal", sans-serif;
+  font-size: 1rem;
+  line-height: 2;
+}
+
+.qv-translator-name {
+  margin: 0;
+  font-size: 0.78rem;
+  color: #666666;
+  font-style: italic;
+  text-align: center;
+}
+
+/* ---------- Footer ---------- */
+.qv-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.7rem 1.5rem;
+  background: transparent;
+  border-top: 1px solid var(--border-color, #e0e0e0);
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.qv-ref {
+  font-size: 0.85rem;
+  color: #495057;
+  font-weight: 500;
+}
+
+.qv-surah {
+  color: #272727;
+  font-weight: 600;
+}
+
+.qv-range {
+  color: #495057;
+}
+
+.qv-quran-link {
+  font-size: 0.82rem;
+  color: #333333;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.3rem 0.8rem;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+.qv-quran-link:hover {
+  background: rgba(0, 0, 0, 0.1);
+  text-decoration: underline;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+  .qv-arabic-text {
+    font-size: 1.6rem;
+    line-height: 2.8;
+  }
+
+  .qv-wbw-arabic {
+    font-size: 1.35rem;
+  }
+
+  .qv-wbw-translation {
+    font-size: 0.65rem;
+  }
+
+  .qv-wbw-transliteration {
+    font-size: 0.6rem;
+  }
+
+  .qv-wbw-container {
+    gap: 0.4rem 0.7rem;
+  }
+
+  .qv-translations-section {
+    padding: 0.8rem 1rem 1rem;
+    margin: 0 -1rem;
+  }
+
+  .qv-arabic-section {
+    padding: 1.2rem 1rem 1rem;
+    margin: 0 -1rem;
+  }
+
+  .qv-lang-ur .qv-translation-text {
+    font-size: 1.05rem;
+    line-height: 2.6;
+  }
+}
+
+@media (max-width: 480px) {
+  .qv-arabic-text {
+    font-size: 1.5rem;
+    line-height: 2.6;
+  }
+
+  .qv-arabic-section {
+    margin: 0 -1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .qv-translations-section {
+    margin: 0 -1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .qv-wbw-arabic {
+    font-size: 1.2rem;
+  }
+
+  .qv-wbw-word {
+    min-width: 44px;
+    padding: 0.4rem;
+  }
+
+  .qv-footer {
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+    gap: 0.4rem;
+  }
+
+  .qv-ref {
+    font-size: 0.8rem;
+  }
+
+  .qv-quran-link {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.6rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .qv-arabic-text {
+    font-size: 1.3rem;
+    line-height: 2.4;
+  }
+
+  .qv-arabic-section {
+    margin: 0 -0.75rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  .qv-translations-section {
+    margin: 0 -0.75rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  .qv-wbw-arabic {
+    font-size: 1.1rem;
+  }
+
+  .qv-wbw-word {
+    min-width: 40px;
+  }
+}

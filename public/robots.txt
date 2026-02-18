@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://quranicphrases.github.io/quranic-prayers/sitemap.xml

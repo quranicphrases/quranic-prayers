@@ -1,0 +1,209 @@
+/* Floating Controls Container - All screens */
+.floating-controls {
+  position: fixed;
+  right: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.75rem;
+  z-index: 900;
+}
+
+/* Mobile (<600px): Bottom-right positioning */
+@media (max-width: 599px) {
+  .floating-controls {
+    bottom: 1.5rem;
+  }
+}
+
+/* Desktop (≥600px): Top-right positioning, reversed order */
+@media (min-width: 600px) {
+  .floating-controls {
+    top: 1rem;
+    flex-direction: column-reverse;
+  }
+}
+
+/* Generic floating button */
+.floating-btn {
+  background: var(--btn-bg-default);
+  color: var(--btn-text-default);
+  border: 1.5px solid var(--btn-border-default);
+  padding: 0.6rem 1rem;
+  border-radius: 24px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+  white-space: nowrap;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.floating-btn:hover {
+  background: var(--btn-bg-hover);
+  border-color: var(--btn-border-hover);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.floating-btn:active {
+  transform: scale(0.98);
+}
+
+.floating-btn:focus {
+  outline: 2px solid var(--btn-border-active);
+  outline-offset: 2px;
+}
+
+/* Back to Top specific styles */
+.floating-btn.back-to-top {
+  background: var(--btn-bg-default);
+  border-color: var(--btn-border-default);
+}
+
+.floating-btn.back-to-top:hover {
+  background: var(--btn-bg-hover);
+  border-color: var(--btn-border-hover);
+}
+
+/* Filter Badge specific styles (active state) */
+.floating-btn.filter-badge {
+  background: var(--btn-bg-active);
+  border-color: var(--btn-border-active);
+  color: var(--btn-text-active);
+}
+
+.floating-btn.filter-badge:hover {
+  background: var(--btn-bg-active-hover);
+  border-color: var(--btn-border-active-hover);
+}
+
+/* Clear Filters Button specific styles */
+.floating-btn.clear-filters-btn {
+  background: var(--btn-bg-default);
+  border-color: var(--btn-border-default);
+  color: var(--btn-text-default);
+  font-weight: 600;
+}
+
+.floating-btn.clear-filters-btn:hover {
+  background: var(--btn-bg-hover);
+  border-color: var(--btn-border-hover);
+}
+
+/* FAB - Floating Action Button */
+.fab {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--btn-bg-default);
+  color: var(--btn-text-default);
+  border: 1.5px solid var(--btn-border-default);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.fab:hover {
+  background: var(--btn-bg-hover);
+  border-color: var(--btn-border-hover);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.fab:active {
+  background: var(--btn-bg-active);
+}
+
+.fab:focus {
+  outline: 2px solid var(--btn-border-active);
+  outline-offset: 2px;
+}
+
+.fab svg {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+
+.fab-icon {
+  width: 32px !important;
+  height: 32px !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 375px) {
+  .floating-controls {
+    bottom: 1rem;
+    right: 0.75rem;
+  }
+
+  .floating-btn {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.8rem;
+    min-height: 40px;
+  }
+
+  .fab {
+    width: 52px;
+    height: 52px;
+  }
+
+  .fab svg {
+    width: 30px;
+    height: 30px;
+  }
+
+  .fab-icon {
+    width: 30px !important;
+    height: 30px !important;
+  }
+}
+
+@media (max-width: 344px) {
+  .floating-controls {
+    bottom: 0.75rem;
+    right: 0.5rem;
+  }
+
+  .floating-btn {
+    padding: 0.4rem 0.7rem;
+    font-size: 0.75rem;
+    min-height: 38px;
+  }
+
+  .fab {
+    width: 48px;
+    height: 48px;
+  }
+
+  .fab svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .fab-icon {
+    width: 28px !important;
+    height: 28px !important;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .floating-btn,
+  .fab {
+    transition: none;
+  }
+}

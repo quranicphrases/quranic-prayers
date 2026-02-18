@@ -1,0 +1,337 @@
+/**
+ * App.css - Global application styles
+ * 
+ * This file contains:
+ * - CSS reset/normalization
+ * - Global CSS custom properties
+ * - App layout styles
+ * - Typography
+ * - Utility classes
+ * - Responsive breakpoints
+ * 
+ * Component-specific styles are in their respective CSS files.
+ */
+
+@import "./styles/variables.css";
+
+/* ==========================================
+   CSS Reset
+   ========================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg-primary);
+  min-height: 100vh;
+  margin: 0;
+  font-family: var(--font-family-base);
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+/* ==========================================
+   Accessibility
+   ========================================== */
+
+/* Skip Navigation Link */
+.skip-nav-link {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  background: var(--primary-color);
+  color: white;
+  padding: 0.8rem 1.5rem;
+  z-index: var(--z-tooltip);
+  font-size: 1rem;
+  text-decoration: none;
+  border-radius: 0 0 var(--radius-md) 0;
+}
+
+.skip-nav-link:focus {
+  top: 0;
+  color: white;
+}
+
+/* Screen reader only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* ==========================================
+   App Layout
+   ========================================== */
+
+.app-layout {
+  min-height: 100vh;
+}
+
+.main-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--spacing-md);
+}
+
+/* ==========================================
+   Header
+   ========================================== */
+
+.app-header {
+  text-align: center;
+  padding: var(--spacing-xl) var(--spacing-md);
+  margin-bottom: var(--spacing-xl);
+  background: var(--card-bg);
+  color: var(--text-primary);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border-color);
+}
+
+.app-header h1 {
+  margin: 0 0 0.5rem 0;
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+.subtitle {
+  font-size: 1.3rem;
+  margin: 0.5rem 0 0 0;
+  color: var(--text-secondary);
+  font-weight: 500;
+  direction: rtl;
+}
+
+/* ==========================================
+   Prayer Count Banner
+   ========================================== */
+
+.prayer-count-banner {
+  text-align: center;
+  padding: 0.75rem var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+  background: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  font-weight: 500;
+  border: 1px solid var(--border-color);
+}
+
+/* ==========================================
+   Prayer Grid Layout
+   ========================================== */
+
+.prayers-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-xl);
+  margin-bottom: var(--spacing-2xl);
+}
+
+/* ==========================================
+   Footer
+   ========================================== */
+
+.app-footer {
+  text-align: center;
+  padding: var(--spacing-xl) var(--spacing-md);
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  border-top: 2px solid var(--border-color);
+}
+
+.app-footer a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color var(--transition-slow);
+}
+
+.app-footer a:hover {
+  color: var(--primary-light);
+  text-decoration: underline;
+}
+
+/* ==========================================
+   Visibility Utilities
+   ========================================== */
+
+/* Desktop only - visible ≥1200px */
+.desktop-only {
+  display: none !important;
+}
+
+/* Tablet only - visible 600px-1199px */
+.tablet-only {
+  display: block;
+}
+
+/* Mobile only - visible <600px */
+.mobile-only {
+  display: none !important;
+}
+
+/* ==========================================
+   Responsive - Wide Screens (≥1200px)
+   ========================================== */
+
+@media (min-width: 1200px) {
+  .app-layout {
+    max-width: none;
+    padding: var(--spacing-md) var(--spacing-xl);
+  }
+
+  .main-content {
+    max-width: 90%;
+    margin: 0 auto;
+    padding: 0;
+  }
+
+  .desktop-only {
+    display: block !important;
+  }
+
+  .tablet-only {
+    display: none !important;
+  }
+
+  .mobile-only {
+    display: none !important;
+  }
+}
+
+/* Ultra-wide screens (≥1600px) */
+@media (min-width: 1600px) {
+  .app-layout {
+    padding: var(--spacing-md) var(--spacing-2xl);
+  }
+
+  .main-content {
+    max-width: 92%;
+  }
+}
+
+/* Super ultra-wide screens (≥2400px) */
+@media (min-width: 2400px) {
+  .app-layout {
+    padding: var(--spacing-md) 4rem;
+  }
+
+  .main-content {
+    max-width: 94%;
+  }
+}
+
+/* Two-column prayer grid on very wide screens */
+@media (min-width: 3400px) {
+  .prayers-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ==========================================
+   Responsive - Tablet (≤768px)
+   ========================================== */
+
+@media (max-width: 768px) {
+  .app-header h1 {
+    font-size: 2rem;
+  }
+
+  .subtitle {
+    font-size: 1.1rem;
+  }
+}
+
+/* ==========================================
+   Responsive - Mobile (≤599px)
+   ========================================== */
+
+@media (max-width: 599px) {
+  .desktop-only {
+    display: none !important;
+  }
+
+  .tablet-only {
+    display: none !important;
+  }
+
+  .mobile-only {
+    display: flex !important;
+  }
+
+  .main-content {
+    padding: var(--spacing-sm);
+    padding-bottom: 5rem; /* Space for floating controls */
+  }
+}
+
+/* ==========================================
+   Responsive - Small Mobile (≤480px)
+   ========================================== */
+
+@media (max-width: 480px) {
+  .app-header {
+    padding: var(--spacing-lg) var(--spacing-md);
+  }
+
+  .app-header h1 {
+    font-size: 1.6rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+}
+
+/* ==========================================
+   Responsive - Extra Small (≤375px)
+   ========================================== */
+
+@media (max-width: 375px) {
+  .app-header h1 {
+    font-size: 1.4rem;
+  }
+}
+
+/* ==========================================
+   Responsive - Galaxy Z Fold (≤344px)
+   ========================================== */
+
+@media (max-width: 344px) {
+  .app-header h1 {
+    font-size: 1.3rem;
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+  }
+
+  .main-content {
+    padding: var(--spacing-xs);
+    padding-bottom: 5rem;
+  }
+}
+
+/* ==========================================
+   Reduced Motion
+   ========================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

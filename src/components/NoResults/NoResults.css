@@ -1,0 +1,38 @@
+/**
+ * NoResults component styles.
+ * Empty state displayed when no prayers match the selected filters.
+ */
+
+.no-results {
+  text-align: center;
+  padding: 3rem 1rem;
+  background: var(--card-bg, #ffffff);
+  border-radius: 12px;
+  box-shadow: var(--shadow, 0 2px 8px rgba(0, 0, 0, 0.08));
+  border: 1px solid var(--border-color, #e0e0e0);
+}
+
+.no-results p {
+  font-size: 1.2rem;
+  color: var(--text-secondary, #555555);
+  margin-bottom: 1.5rem;
+}
+
+.no-results .clear-filters-btn {
+  background: var(--btn-bg-default);
+  color: var(--btn-text-default);
+  border: 1.5px solid var(--btn-border-default);
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.no-results .clear-filters-btn:hover {
+  background: var(--btn-bg-hover);
+  border-color: var(--btn-border-hover);
+}

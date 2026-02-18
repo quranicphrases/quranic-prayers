@@ -1,0 +1,46 @@
+/**
+ * TabGroup component styles.
+ * Shared tab navigation styling for BottomSheet and FilterDrawer.
+ */
+
+.tab-group {
+  display: flex;
+  border-bottom: 1px solid var(--border-color, #e0e0e0);
+  background: var(--bg-secondary, #f8f8f8);
+}
+
+.tab-group-tab {
+  flex: 1;
+  padding: 0.875rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--btn-text-default);
+  background: var(--btn-bg-default);
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+
+.tab-group-tab:hover {
+  color: var(--btn-text-default);
+  background: var(--btn-bg-hover);
+}
+
+.tab-group-tab.active {
+  color: var(--btn-text-active);
+  background: var(--btn-bg-active);
+  border-bottom-color: var(--btn-border-active);
+}
+
+.tab-group-tab.active:hover {
+  background: var(--btn-bg-active-hover);
+}
+
+.tab-group-tab:focus-visible {
+  outline: 2px solid var(--btn-border-active);
+  outline-offset: -2px;
+}

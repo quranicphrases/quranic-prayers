@@ -1,0 +1,201 @@
+/* Filter Drawer Backdrop */
+.filter-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
+  z-index: 999;
+}
+
+.filter-drawer-backdrop.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Filter Drawer Container */
+.filter-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 340px;
+  max-width: 90vw;
+  background: var(--card-bg, #ffffff);
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+  transform: translateX(100%);
+  transition: transform 0.3s ease-out;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-drawer.open {
+  transform: translateX(0);
+}
+
+/* Header */
+.filter-drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--border-color, #e0e0e0);
+  flex-shrink: 0;
+}
+
+.filter-drawer-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary, #272727);
+}
+
+.filter-drawer-close {
+  background: var(--btn-bg-default);
+  border: 1.5px solid var(--btn-border-default);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 1.1rem;
+  color: var(--btn-text-default);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.filter-drawer-close:hover {
+  background: var(--btn-bg-hover);
+  border-color: var(--btn-border-hover);
+}
+
+.filter-drawer-close:focus {
+  outline: 2px solid var(--btn-border-active);
+  outline-offset: 2px;
+}
+
+/* Content */
+.filter-drawer-content {
+  padding: 1.5rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* Tabs */
+.filter-drawer-tabs {
+  display: flex;
+  padding: 0 1rem;
+  gap: 0.5rem;
+  border-bottom: 1px solid var(--border-color, #e0e0e0);
+  flex-shrink: 0;
+}
+
+.filter-drawer-tab {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-secondary, #555555);
+  cursor: pointer;
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.filter-drawer-tab::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: transparent;
+  border-radius: 3px 3px 0 0;
+  transition: background 0.2s ease;
+}
+
+.filter-drawer-tab.active {
+  color: var(--text-primary, #272727);
+}
+
+.filter-drawer-tab.active::after {
+  background: var(--primary-color, #333333);
+}
+
+.filter-drawer-tab:hover {
+  background: #ebebeb;
+  color: var(--text-primary, #272727);
+}
+
+.filter-drawer-tab:focus {
+  outline: 2px solid var(--primary-color, #333333);
+  outline-offset: -2px;
+}
+
+/* Reading Controls within Drawer - Stacked layout */
+.filter-drawer-content .reading-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.filter-drawer-content .reading-control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.filter-drawer-content .reading-control-label {
+  font-weight: 600;
+  color: var(--text-primary, #272727);
+  font-size: 1rem;
+}
+
+.filter-drawer-content .reading-control-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Compact mode buttons within drawer */
+.filter-drawer-content .mode-btn {
+  padding: 0.6rem 1rem;
+  font-size: 0.85rem;
+}
+
+/* Override filter section styles within drawer */
+.filter-drawer-content .filter-section {
+  margin-bottom: 0;
+  padding: 0;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+}
+
+.filter-drawer-content .filter-header {
+  margin-bottom: 1rem;
+}
+
+.filter-drawer-content .filter-chips {
+  gap: 0.6rem;
+}
+
+.filter-drawer-content .filter-results {
+  margin-top: 1.5rem;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .filter-drawer,
+  .filter-drawer-backdrop {
+    transition: none;
+  }
+}

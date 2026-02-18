@@ -1,0 +1,182 @@
+/**
+ * FilterSection component styles.
+ * Filter chips for category-based prayer filtering.
+ */
+
+.filter-section {
+  background: var(--card-bg, #ffffff);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow, 0 2px 8px rgba(0, 0, 0, 0.08));
+  border: 1px solid var(--border-color, #e0e0e0);
+}
+
+.filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.filter-header h2 {
+  margin: 0;
+  color: var(--text-primary, #272727);
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-bottom: 0.8rem;
+}
+
+.filter-chip {
+  background: var(--btn-bg-default);
+  color: var(--btn-text-default);
+  border: 1.5px solid var(--btn-border-default);
+  padding: 0.6rem 1.2rem;
+  border-radius: 25px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.filter-chip:hover {
+  background: var(--btn-bg-hover);
+  border-color: var(--btn-border-hover);
+}
+
+.filter-chip.active {
+  background: var(--btn-bg-active);
+  color: var(--btn-text-active);
+  border-color: var(--btn-border-active);
+}
+
+.filter-chip.active:hover {
+  background: var(--btn-bg-active-hover);
+  border-color: var(--btn-border-active-hover);
+}
+
+.clear-filters-btn {
+  background: var(--btn-bg-default);
+  color: var(--btn-text-default);
+  border: 1.5px solid var(--btn-border-default);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.clear-filters-btn:hover {
+  background: var(--btn-bg-hover);
+  border-color: var(--btn-border-hover);
+}
+
+.clear-filters-btn:active {
+  transform: translateY(0);
+}
+
+.clear-filters-chip {
+  background: var(--btn-bg-default) !important;
+  color: var(--btn-text-default) !important;
+  border: 1.5px solid var(--btn-border-default) !important;
+  font-weight: 600;
+}
+
+.clear-filters-chip:hover {
+  background: var(--btn-bg-hover) !important;
+  border-color: var(--btn-border-hover) !important;
+}
+
+.clear-filters-chip-disabled {
+  opacity: 0.4;
+  cursor: default !important;
+  pointer-events: none;
+}
+
+.filter-results {
+  margin-top: 1rem;
+  padding: 0.7rem 1rem;
+  background: #f5f5f5;
+  border-left: 4px solid var(--primary-color, #333333);
+  border-radius: 6px;
+  color: var(--text-primary, #272727);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .filter-chips {
+    gap: 0.5rem;
+  }
+
+  .filter-chip {
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .filter-section {
+    padding: 1rem;
+  }
+
+  .filter-header h2 {
+    font-size: 1.1rem;
+  }
+
+  .filter-chip {
+    font-size: 0.8rem;
+    padding: 0.6rem 1rem;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  .clear-filters-btn {
+    font-size: 0.85rem;
+    padding: 0.5rem 0.8rem;
+    min-height: 44px;
+  }
+
+  .filter-results {
+    font-size: 0.85rem;
+  }
+
+  .filter-chips {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .filter-chip {
+    padding: 0.5rem 0.9rem;
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 375px) {
+  .filter-chip {
+    padding: 0.4rem 0.7rem;
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 344px) {
+  .filter-chip {
+    padding: 0.35rem 0.6rem;
+    font-size: 0.65rem;
+  }
+}
