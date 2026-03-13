@@ -11,6 +11,8 @@ import BottomSheet from "./components/BottomSheet";
 import FloatingControls from "./components/FloatingControls";
 import FilterDrawer from "./components/FilterDrawer";
 import { ALL_LANGUAGES, MOBILE_BREAKPOINT } from "./constants";
+import { t } from "./constants/uiStrings";
+import { useUILanguage } from "./contexts/LanguageContext";
 
 /**
  * Main App Component
@@ -18,6 +20,7 @@ import { ALL_LANGUAGES, MOBILE_BREAKPOINT } from "./constants";
  * All prayer data is bundled in data.json.
  */
 function App() {
+  const { uiLanguage, setUILanguage } = useUILanguage();
   const [wordByWord, setWordByWord] = useState(false);
   const [visibleLanguages, setVisibleLanguages] = useState<Set<Language>>(
     () => new Set(ALL_LANGUAGES),
@@ -72,29 +75,38 @@ function App() {
   };
 
   return (
-    <div className="app-layout">
+    <div className="app-layout" data-ui-lang={uiLanguage}>
       <a href="#prayers-list" className="skip-nav-link">
-        Skip to prayers
+        {t("skipToPrayers", uiLanguage)}
       </a>
 
       <div className="main-content">
         <header className="app-header">
-          <h1>Quranic Prayers</h1>
-          <p className="subtitle">دعائیں - Supplications from the Holy Quran</p>
+          <h1>{t("appTitle", uiLanguage)}</h1>
+          <p className="subtitle">{t("appSubtitle", uiLanguage)}</p>
         </header>
 
         {/* Screen reader announcement for filter changes */}
         <div aria-live="polite" className="sr-only">
           {selectedTags.size > 0
-            ? `Showing ${visibleCount} of ${prayers.length} prayers`
-            : `Showing all ${prayers.length} prayers`}
+            ? t("showingOf", uiLanguage, {
+                visible: visibleCount,
+                total: prayers.length,
+              })
+            : t("showingOf", uiLanguage, {
+                visible: prayers.length,
+                total: prayers.length,
+              })}
         </div>
 
         {/* Prayer count banner */}
         <div className="prayer-count-banner">
-          Showing {visibleCount} of {prayers.length} prayers
+          {t("showingOf", uiLanguage, {
+            visible: visibleCount,
+            total: prayers.length,
+          })}
           {selectedTags.size > 0 &&
-            ` (${selectedTags.size} filter${selectedTags.size > 1 ? "s" : ""} applied)`}
+            ` ${t("filtersApplied", uiLanguage, { count: selectedTags.size, s: selectedTags.size > 1 ? "s" : "" })}`}
         </div>
 
         {/* Main Prayer List - grid on wide, single column otherwise */}
@@ -104,7 +116,11 @@ function App() {
           aria-label="Prayer list"
         >
           {visibleCount === 0 && selectedTags.size > 0 && (
-            <NoResults onClearFilters={clearAllFilters} />
+            <NoResults
+              onClearFilters={clearAllFilters}
+              noResultsText={t("noResults", uiLanguage)}
+              clearFiltersText={t("clearFilters", uiLanguage)}
+            />
           )}
 
           {(() => {
@@ -122,6 +138,7 @@ function App() {
                   visibleLanguages={stableVisibleLanguages}
                   onToggleTag={toggleTag}
                   selectedTags={selectedTags}
+                  uiLanguage={uiLanguage}
                 />
               );
             });
@@ -130,7 +147,7 @@ function App() {
 
         <footer className="app-footer">
           <p>
-            Content sourced from{" "}
+            {t("contentSourced", uiLanguage)}{" "}
             <a
               href="https://quran.com"
               target="_blank"
@@ -147,16 +164,18 @@ function App() {
         activeFilters={selectedTags.size}
         onOpenSettings={() => setSettingsOpen(true)}
         onClearFilters={clearAllFilters}
+        uiLanguage={uiLanguage}
       />
 
       {/* Mobile (<600px): Bottom sheet */}
       <BottomSheet
         isOpen={isSettingsOpen && isMobile}
         onClose={() => setSettingsOpen(false)}
-        title="Settings"
+        title={t("settings", uiLanguage)}
         activeTab={activeTab}
         onTabChange={setActiveTab}
         showTabs
+        uiLanguage={uiLanguage}
       >
         {activeTab === "filters" ? (
           <FilterSection
@@ -166,6 +185,7 @@ function App() {
             onClearAll={clearAllFilters}
             visibleCount={visibleCount}
             totalCount={prayers.length}
+            uiLanguage={uiLanguage}
           />
         ) : (
           <ReadingControls
@@ -173,6 +193,9 @@ function App() {
             onWordByWordChange={setWordByWord}
             visibleLanguages={visibleLanguages}
             onToggleLanguage={toggleLanguage}
+            uiLanguage={uiLanguage}
+            onUILanguageChange={setUILanguage}
+            id="mobile"
           />
         )}
       </BottomSheet>
@@ -193,6 +216,8 @@ function App() {
         onWordByWordChange={setWordByWord}
         visibleLanguages={visibleLanguages}
         onToggleLanguage={toggleLanguage}
+        uiLanguage={uiLanguage}
+        onUILanguageChange={setUILanguage}
       />
     </div>
   );

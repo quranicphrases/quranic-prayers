@@ -10,3 +10,7 @@ export {
 } from "./languages";
 
 export { MOBILE_BREAKPOINT, isMobileViewport } from "./breakpoints";
+
+export { t } from "./uiStrings";
+
+export { getTagDisplay } from "./tagTranslations";

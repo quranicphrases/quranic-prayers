@@ -54,6 +54,11 @@
   color: var(--text-primary, #272727);
 }
 
+[data-ui-lang="urdu"] .filter-drawer-title {
+  font-family: var(--font-family-urdu);
+  line-height: 1.5;
+}
+
 .filter-drawer-close {
   background: var(--btn-bg-default);
   border: 1.5px solid var(--btn-border-default);

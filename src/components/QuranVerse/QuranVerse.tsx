@@ -1,11 +1,17 @@
 import { memo } from "react";
-import type { QuranVerseProps, VerseContent } from "../../types/prayer";
+import type {
+  QuranVerseProps,
+  VerseContent,
+  UILanguage,
+} from "../../types/prayer";
 import {
   toArabicNumeral,
   normalizeArabicText,
   extractWaqfMark,
   buildQuranUrl,
 } from "../../utils/quranHelpers";
+import { t } from "../../constants/uiStrings";
+import { getLocalizedSurahName } from "../../constants/surahNames";
 import "./QuranVerse.css";
 
 /**
@@ -22,26 +28,32 @@ const QuranVerse = memo(
     verseRange,
     showWordByWord,
     visibleLanguages,
+    uiLanguage,
   }: QuranVerseProps) => {
     return (
       <div className="quran-verse">
-        {/* ── Arabic Section — continuous flow ── */}
-        <div className="qv-arabic-section" aria-label="Quranic Arabic text">
+        {/* ── Arabic Section — continuous flow, protected from browser translate ── */}
+        <div
+          className="qv-arabic-section"
+          aria-label="Quranic Arabic text"
+          translate="no"
+        >
           {showWordByWord ? (
             // Word-by-word: each verse's words flow together with verse-end marker
-            <div className="qv-wbw-container" dir="rtl">
+            <div className="qv-wbw-container" dir="rtl" lang="ar">
               {content.map((verse) => (
-                <WbwWordsInline key={verse.verseKey} verse={verse} />
+                <WbwWordsInline
+                  key={verse.verseKey}
+                  verse={verse}
+                  uiLanguage={uiLanguage}
+                />
               ))}
             </div>
           ) : (
             // Normal: all verses in a single <p> so they wrap naturally
             <p className="qv-arabic-text" dir="rtl" lang="ar">
               {content.map((verse, i) => (
-                <span
-                  key={verse.verseKey}
-                  className={!verse.isPartOfPrayer ? "qv-dimmed-inline" : ""}
-                >
+                <span key={verse.verseKey}>
                   {i > 0 && " "}
                   {(() => {
                     const { text, waqfMark } = extractWaqfMark(
@@ -102,8 +114,15 @@ const QuranVerse = memo(
         {/* ── Footer ── */}
         {(surahName || verseRange) && (
           <div className="qv-footer">
-            <span className="qv-ref">
-              {surahName && <span className="qv-surah">{surahName}</span>}
+            <span
+              className="qv-ref"
+              dir={uiLanguage === "urdu" ? "rtl" : undefined}
+            >
+              {surahName && (
+                <span className="qv-surah">
+                  {getLocalizedSurahName(surahNumber, uiLanguage, surahName)}
+                </span>
+              )}
               {verseRange && <span className="qv-range"> [{verseRange}]</span>}
             </span>
             {verseRange && surahNumber && (
@@ -112,8 +131,9 @@ const QuranVerse = memo(
                 href={buildQuranUrl(surahNumber, verseRange)}
                 target="_blank"
                 rel="noopener noreferrer"
+                dir={uiLanguage === "urdu" ? "rtl" : undefined}
               >
-                Open on Quran.com ↗
+                {t("openOnQuranCom", uiLanguage)}
               </a>
             )}
           </div>
@@ -157,13 +177,31 @@ function AyahEndMarker({
 }
 
 /** Inline word-by-word words for a single verse (no wrapper div — flows with siblings) */
-function WbwWordsInline({ verse }: { verse: VerseContent }) {
+function WbwWordsInline({
+  verse,
+  uiLanguage,
+}: {
+  verse: VerseContent;
+  uiLanguage: UILanguage;
+}) {
+  const getTranslation = (word: {
+    translation: string;
+    translation_ur?: string;
+    translation_hi?: string;
+  }) => {
+    if (uiLanguage === "urdu" && word.translation_ur)
+      return word.translation_ur;
+    if (uiLanguage === "hindi" && word.translation_hi)
+      return word.translation_hi;
+    return word.translation;
+  };
+
   return (
     <>
       {verse.words?.map((word, i) => (
         <div
           key={`${verse.verseKey}-${i}`}
-          className={`qv-wbw-word ${!verse.isPartOfPrayer ? "qv-dimmed" : ""}`}
+          className="qv-wbw-word"
           role="group"
           aria-label={`${word.transliteration}: ${word.translation}`}
         >
@@ -171,7 +209,7 @@ function WbwWordsInline({ verse }: { verse: VerseContent }) {
             {normalizeArabicText(word.textIndopak)}
           </span>
           <span className="qv-wbw-transliteration">{word.transliteration}</span>
-          <span className="qv-wbw-translation">{word.translation}</span>
+          <span className="qv-wbw-translation">{getTranslation(word)}</span>
         </div>
       ))}
       <div className="qv-wbw-word qv-wbw-verse-num">
@@ -210,10 +248,7 @@ function LanguageTranslationGroup({
           const t = verse.translations[lang];
           if (!t?.text) return null;
           return (
-            <span
-              key={verse.verseKey}
-              className={!verse.isPartOfPrayer ? "qv-dimmed-inline" : ""}
-            >
+            <span key={verse.verseKey}>
               <span className="qv-inline-verse-ref" aria-hidden="true">
                 ({verse.verseKey}){" "}
               </span>
@@ -223,9 +258,21 @@ function LanguageTranslationGroup({
           );
         })}
       </div>
-      <p className="qv-translator-name">— {translator}</p>
+      <p className="qv-translator-name">
+        — {getLocalizedTranslator(translator, lang)}
+      </p>
     </div>
   );
+}
+
+/** Map English translator names to their native-language versions */
+const LOCALIZED_TRANSLATORS: Record<string, Record<string, string>> = {
+  "Dr. Israr Ahmad": { urdu: "ڈاکٹر اسرار احمد" },
+  "Maulana Azizul Haque al-Umari": { hindi: "मौलाना अज़ीज़ुल हक़ अल-उमरी" },
+};
+
+function getLocalizedTranslator(name: string, lang: string): string {
+  return LOCALIZED_TRANSLATORS[name]?.[lang] ?? name;
 }
 
 export default QuranVerse;

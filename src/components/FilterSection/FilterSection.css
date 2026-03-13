@@ -117,6 +117,20 @@
   font-size: 0.95rem;
 }
 
+[data-ui-lang="urdu"] .filter-header h2,
+[data-ui-lang="urdu"] .filter-chip,
+[data-ui-lang="urdu"] .filter-results,
+[data-ui-lang="urdu"] .clear-filters-btn {
+  font-family: var(--font-family-urdu);
+  line-height: 1.5;
+}
+
+[data-ui-lang="urdu"] .filter-results {
+  direction: rtl;
+  border-left: none;
+  border-right: 4px solid var(--primary-color, #333333);
+}
+
 /* Responsive styles */
 @media (max-width: 768px) {
   .filter-chips {

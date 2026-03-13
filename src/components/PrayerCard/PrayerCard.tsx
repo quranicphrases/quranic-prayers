@@ -1,5 +1,7 @@
 import { memo } from "react";
-import type { Prayer, Language } from "../../types/prayer";
+import type { Prayer, Language, UILanguage } from "../../types/prayer";
+import { getLocalizedPrayer } from "../../hooks/useLocalizedPrayer";
+import { getTagDisplay } from "../../constants/tagTranslations";
 import QuranVerse from "../QuranVerse";
 import "./PrayerCard.css";
 
@@ -11,6 +13,7 @@ interface PrayerCardProps {
   visibleLanguages: Set<Language>;
   onToggleTag: (tag: string) => void;
   selectedTags: Set<string>;
+  uiLanguage: UILanguage;
 }
 
 /**
@@ -26,7 +29,11 @@ const PrayerCard = memo(
     visibleLanguages,
     onToggleTag,
     selectedTags,
+    uiLanguage,
   }: PrayerCardProps) => {
+    const localized = getLocalizedPrayer(prayer, uiLanguage);
+    const isRtl = uiLanguage === "urdu";
+
     return (
       <article
         className="prayer-card"
@@ -38,29 +45,25 @@ const PrayerCard = memo(
         <div className="prayer-header">
           <h2>
             <span className="prayer-serial">{serialNumber}.</span>{" "}
-            {prayer.title}
+            {localized.title}
           </h2>
           <div className="tags-container">
-            {prayer.tags.map((tag) => (
+            {prayer.tags_en.map((tagKey) => (
               <button
-                key={tag}
-                className={`tag-badge tag-badge-interactive${selectedTags.has(tag) ? " tag-badge-active" : ""}`}
-                onClick={() => onToggleTag(tag)}
-                aria-label={`Filter by ${tag}`}
+                key={tagKey}
+                className={`tag-badge tag-badge-interactive${selectedTags.has(tagKey) ? " tag-badge-active" : ""}`}
+                onClick={() => onToggleTag(tagKey)}
+                aria-label={`Filter by ${tagKey}`}
               >
-                {tag}
+                {getTagDisplay(tagKey, uiLanguage)}
               </button>
             ))}
           </div>
         </div>
 
-        <p className="prayer-description">{prayer.description}</p>
-
-        {prayer.partialVerse && (
-          <p className="partial-note">
-            <strong>Note:</strong> {prayer.partialVerse}
-          </p>
-        )}
+        <p className="prayer-description" dir={isRtl ? "rtl" : "ltr"}>
+          {localized.description}
+        </p>
 
         {prayer.content && prayer.content.length > 0 && (
           <div className="verse-container">
@@ -71,6 +74,7 @@ const PrayerCard = memo(
               verseRange={prayer.verses}
               showWordByWord={showWordByWord}
               visibleLanguages={visibleLanguages}
+              uiLanguage={uiLanguage}
             />
           </div>
         )}
@@ -85,7 +89,8 @@ const PrayerCard = memo(
       prevProps.showWordByWord === nextProps.showWordByWord &&
       prevProps.visibleLanguages === nextProps.visibleLanguages &&
       prevProps.onToggleTag === nextProps.onToggleTag &&
-      prevProps.selectedTags === nextProps.selectedTags
+      prevProps.selectedTags === nextProps.selectedTags &&
+      prevProps.uiLanguage === nextProps.uiLanguage
     );
   },
 );

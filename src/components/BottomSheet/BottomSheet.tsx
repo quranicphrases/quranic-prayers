@@ -1,33 +1,21 @@
 import { useEffect, useRef, useCallback, type ReactNode } from "react";
+import type { UILanguage } from "../../types/prayer";
+import { t } from "../../constants/uiStrings";
 import TabGroup from "../TabGroup";
 import "./BottomSheet.css";
 
 /** Tab type for filters/reading options */
 export type BottomSheetTab = "filters" | "reading";
 
-/** Default tabs configuration */
-const DEFAULT_TABS = [
-  { id: "filters", label: "Filters" },
-  { id: "reading", label: "Reading Options" },
-];
-
 interface BottomSheetProps {
-  /** Whether the sheet is open */
   isOpen: boolean;
-  /** Callback when the sheet should close */
   onClose: () => void;
-  /** Title displayed in the header */
   title?: string;
-  /** Content to render inside the sheet */
   children: ReactNode;
-  /** Currently active tab ID */
   activeTab?: BottomSheetTab;
-  /** Callback when tab changes */
   onTabChange?: (tab: BottomSheetTab) => void;
-  /** Whether to show tab navigation */
   showTabs?: boolean;
-  /** Custom tabs configuration */
-  tabs?: Array<{ id: string; label: string }>;
+  uiLanguage: UILanguage;
 }
 
 /**
@@ -42,8 +30,12 @@ export default function BottomSheet({
   activeTab = "filters",
   onTabChange,
   showTabs = true,
-  tabs = DEFAULT_TABS,
+  uiLanguage,
 }: BottomSheetProps) {
+  const tabs = [
+    { id: "filters", label: t("tabFilters", uiLanguage) },
+    { id: "reading", label: t("tabReading", uiLanguage) },
+  ];
   const sheetRef = useRef<HTMLDivElement>(null);
   const firstFocusableRef = useRef<HTMLButtonElement>(null);
 

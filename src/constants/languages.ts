@@ -11,8 +11,8 @@ export const ALL_LANGUAGES: Language[] = ["english", "urdu", "hindi"];
  */
 export const LANGUAGE_DISPLAY_NAMES: Record<Language, string> = {
   english: "English",
-  urdu: "Urdu",
-  hindi: "Hindi",
+  urdu: "اردو",
+  hindi: "हिन्दी",
 };
 
 /**

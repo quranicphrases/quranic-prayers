@@ -34,16 +34,6 @@
   margin-top: 1rem;
 }
 
-/* Dimmed text for partial verses (block-level) */
-.qv-dimmed {
-  opacity: 0.5;
-}
-
-/* Dimmed text for partial verses (inline) */
-.qv-dimmed-inline {
-  opacity: 0.5;
-}
-
 /* Inline verse reference delimiter in translations */
 .qv-inline-verse-ref {
   display: inline;
@@ -318,6 +308,17 @@
 .qv-quran-link:hover {
   background: rgba(0, 0, 0, 0.1);
   text-decoration: underline;
+}
+
+/* Urdu footer + translator styling */
+[data-ui-lang="urdu"] .qv-surah,
+[data-ui-lang="urdu"] .qv-quran-link {
+  font-family: var(--font-family-urdu);
+  line-height: 1.5;
+}
+
+[data-ui-lang="urdu"] .qv-lang-ur .qv-translator-name {
+  font-family: var(--font-family-urdu);
 }
 
 /* ---------- Responsive ---------- */

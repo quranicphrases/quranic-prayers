@@ -1,9 +1,12 @@
+import type { UILanguage } from "../../types/prayer";
+import { t } from "../../constants/uiStrings";
 import "./FloatingControls.css";
 
 interface FloatingControlsProps {
   activeFilters: number;
   onOpenSettings: () => void;
   onClearFilters: () => void;
+  uiLanguage: UILanguage;
 }
 
 /**
@@ -15,6 +18,7 @@ export default function FloatingControls({
   activeFilters,
   onOpenSettings,
   onClearFilters,
+  uiLanguage,
 }: FloatingControlsProps) {
   const handleScrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -27,9 +31,9 @@ export default function FloatingControls({
         <button
           className="floating-btn clear-filters-btn"
           onClick={onClearFilters}
-          aria-label={`Clear ${activeFilters} filter${activeFilters > 1 ? "s" : ""}`}
+          aria-label={`${t("clear", uiLanguage)} ${activeFilters}`}
         >
-          Clear ({activeFilters})
+          {t("clear", uiLanguage)} ({activeFilters})
         </button>
       )}
 
@@ -39,7 +43,7 @@ export default function FloatingControls({
         onClick={handleScrollToTop}
         aria-label="Scroll to top"
       >
-        ↑ <span className="floating-btn-text">Top</span>
+        ↑ <span className="floating-btn-text">{t("top", uiLanguage)}</span>
       </button>
 
       {/* FAB - Settings button */}

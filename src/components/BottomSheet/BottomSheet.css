@@ -67,6 +67,11 @@
   color: var(--text-primary, #272727);
 }
 
+[data-ui-lang="urdu"] .bottom-sheet-title {
+  font-family: var(--font-family-urdu);
+  line-height: 1.5;
+}
+
 .bottom-sheet-close {
   background: var(--btn-bg-default);
   border: 1.5px solid var(--btn-border-default);

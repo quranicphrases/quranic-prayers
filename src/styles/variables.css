@@ -48,7 +48,8 @@
   --font-family-arabic:
     "IndoPak", "Noto Nastaliq Urdu", "Noto Naskh Arabic", serif;
   --font-family-urdu:
-    "Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", "Mehr Nastaliq", sans-serif;
+    "Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", "Mehr Nastaliq",
+    "Nafees Nastaleeq", serif;
   --font-family-hindi: "Noto Sans Devanagari", "Mangal", sans-serif;
 
   /* ==========================================

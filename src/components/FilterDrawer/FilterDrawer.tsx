@@ -2,49 +2,31 @@ import { useEffect, useRef } from "react";
 import FilterSection from "../FilterSection";
 import TabGroup from "../TabGroup";
 import ReadingControls from "../ReadingControls";
-import type { Language } from "../../types/prayer";
+import type { Language, UILanguage } from "../../types/prayer";
+import { t } from "../../constants/uiStrings";
 import "./FilterDrawer.css";
-
-/** Default tabs configuration */
-const DEFAULT_TABS = [
-  { id: "filters", label: "Filters" },
-  { id: "reading", label: "Reading Options" },
-];
 
 /** Tab type for filters/reading options */
 export type FilterDrawerTab = "filters" | "reading";
 
 interface FilterDrawerProps {
-  /** Whether the drawer is open */
   isOpen: boolean;
-  /** Callback when the drawer should close */
   onClose: () => void;
-  /** All available filter tags */
   allTags: string[];
-  /** Currently selected tags */
   selectedTags: Set<string>;
-  /** Callback when a tag is toggled */
   onToggleTag: (tag: string) => void;
-  /** Callback to clear all filters */
   onClearAll: () => void;
-  /** Number of visible prayers */
   visibleCount: number;
-  /** Total number of prayers */
   totalCount: number;
-  /** Currently active tab ID */
   activeTab: FilterDrawerTab;
-  /** Callback when tab changes */
   onTabChange: (tab: FilterDrawerTab) => void;
-  /** Whether word-by-word mode is enabled */
   wordByWord: boolean;
-  /** Callback when word-by-word mode changes */
   onWordByWordChange: (value: boolean) => void;
-  /** Set of currently visible languages */
   visibleLanguages: Set<Language>;
-  /** Callback when a language is toggled */
   onToggleLanguage: (lang: Language) => void;
-  /** Title displayed in the header */
   title?: string;
+  uiLanguage: UILanguage;
+  onUILanguageChange: (lang: UILanguage) => void;
 }
 
 /**
@@ -68,9 +50,16 @@ export default function FilterDrawer({
   visibleLanguages,
   onToggleLanguage,
   title = "Settings",
+  uiLanguage,
+  onUILanguageChange,
 }: FilterDrawerProps) {
   const drawerRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+  const tabs = [
+    { id: "filters", label: t("tabFilters", uiLanguage) },
+    { id: "reading", label: t("tabReading", uiLanguage) },
+  ];
 
   // Handle escape key
   useEffect(() => {
@@ -130,7 +119,7 @@ export default function FilterDrawer({
 
         {/* Tabs */}
         <TabGroup
-          tabs={DEFAULT_TABS}
+          tabs={tabs}
           activeTab={activeTab}
           onTabChange={onTabChange as (tab: string) => void}
           className="filter-drawer-tabs"
@@ -146,6 +135,7 @@ export default function FilterDrawer({
               onClearAll={onClearAll}
               visibleCount={visibleCount}
               totalCount={totalCount}
+              uiLanguage={uiLanguage}
             />
           ) : (
             <ReadingControls
@@ -153,6 +143,9 @@ export default function FilterDrawer({
               onWordByWordChange={onWordByWordChange}
               visibleLanguages={visibleLanguages}
               onToggleLanguage={onToggleLanguage}
+              uiLanguage={uiLanguage}
+              onUILanguageChange={onUILanguageChange}
+              id="desktop"
             />
           )}
         </div>

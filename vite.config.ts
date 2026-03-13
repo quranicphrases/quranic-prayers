@@ -35,7 +35,7 @@ export default defineConfig({
       manifest: {
         name: 'Quranic Prayers — Supplications from the Holy Quran',
         short_name: 'Quranic Prayers',
-        description: '68 Quranic prayers with Arabic text, word-by-word breakdowns, and translations in English, Urdu and Hindi.',
+        description: '77 Quranic prayers with Arabic text, word-by-word breakdowns, and translations in English, Urdu and Hindi.',
         theme_color: '#2c5f2d',
         background_color: '#faf9f6',
         display: 'standalone',

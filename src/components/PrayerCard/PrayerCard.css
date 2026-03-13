@@ -94,18 +94,17 @@
   font-size: 1.05rem;
 }
 
-.partial-note {
-  background: #f5f5f5;
-  border-left: 4px solid var(--text-secondary, #555555);
-  padding: 0.8rem 1rem;
-  margin: 1rem 0;
-  border-radius: 4px;
-  font-size: 0.95rem;
-  color: var(--text-primary, #272727);
+/* Urdu font — UI chrome: font-family only; content text: full sizing */
+[data-ui-lang="urdu"] .prayer-header h2,
+[data-ui-lang="urdu"] .tag-badge {
+  font-family: var(--font-family-urdu);
+  line-height: 1.5;
 }
 
-.partial-note strong {
-  color: var(--text-primary, #272727);
+[data-ui-lang="urdu"] .prayer-description {
+  font-family: var(--font-family-urdu);
+  font-size: 1.15rem;
+  line-height: 2.8;
 }
 
 .verse-container {

@@ -1,71 +1,80 @@
-import type { Language } from "../../types/prayer";
-import { ALL_LANGUAGES, capitalizeLanguage } from "../../constants/languages";
+import type { Language, UILanguage } from "../../types/prayer";
+import {
+  ALL_LANGUAGES,
+  LANGUAGE_DISPLAY_NAMES,
+} from "../../constants/languages";
+import { t } from "../../constants/uiStrings";
 import "./ReadingControls.css";
 
 export interface ReadingControlsProps {
-  /** Whether word-by-word mode is enabled */
   wordByWord: boolean;
-  /** Callback when word-by-word mode changes */
   onWordByWordChange: (value: boolean) => void;
-  /** Set of currently visible languages */
   visibleLanguages: Set<Language>;
-  /** Callback when a language toggle changes */
   onToggleLanguage: (lang: Language) => void;
-  /** Label for the reading mode section */
-  readingModeLabel?: string;
-  /** Label for the translations section */
-  translationsLabel?: string;
-  /** Label for normal reading mode button */
-  normalModeLabel?: string;
-  /** Label for word-by-word mode button */
-  wbwModeLabel?: string;
+  uiLanguage: UILanguage;
+  onUILanguageChange: (lang: UILanguage) => void;
+  id?: string;
 }
 
-/**
- * ReadingControls - Shared component for reading mode and language toggles.
- * Used in both BottomSheet (mobile) and FilterDrawer (desktop).
- *
- * @example
- * <ReadingControls
- *   wordByWord={wordByWord}
- *   onWordByWordChange={setWordByWord}
- *   visibleLanguages={visibleLanguages}
- *   onToggleLanguage={toggleLanguage}
- * />
- */
 export default function ReadingControls({
   wordByWord,
   onWordByWordChange,
   visibleLanguages,
   onToggleLanguage,
-  readingModeLabel = "Reading Mode:",
-  translationsLabel = "Translations:",
-  normalModeLabel = "📖 Normal",
-  wbwModeLabel = "🔤 Word-by-Word",
+  uiLanguage,
+  onUILanguageChange,
+  id,
 }: ReadingControlsProps) {
   return (
     <div className="reading-controls">
+      {/* App Language selector */}
       <div className="reading-control-group">
-        <span className="reading-control-label">{readingModeLabel}</span>
+        <span className="reading-control-label">
+          {t("appLanguage", uiLanguage)}
+        </span>
+        <div className="reading-control-options">
+          {ALL_LANGUAGES.map((lang) => (
+            <label key={lang} className="lang-toggle">
+              <input
+                type="radio"
+                name={`ui-language-${id ?? "default"}`}
+                checked={uiLanguage === lang}
+                onChange={() => onUILanguageChange(lang)}
+              />
+              <span>{LANGUAGE_DISPLAY_NAMES[lang]}</span>
+            </label>
+          ))}
+        </div>
+      </div>
+
+      {/* Reading mode */}
+      <div className="reading-control-group">
+        <span className="reading-control-label">
+          {t("readingMode", uiLanguage)}
+        </span>
         <div className="reading-control-options">
           <button
             className={`mode-btn ${!wordByWord ? "active" : ""}`}
             onClick={() => onWordByWordChange(false)}
             aria-pressed={!wordByWord}
           >
-            {normalModeLabel}
+            {t("normalMode", uiLanguage)}
           </button>
           <button
             className={`mode-btn ${wordByWord ? "active" : ""}`}
             onClick={() => onWordByWordChange(true)}
             aria-pressed={wordByWord}
           >
-            {wbwModeLabel}
+            {t("wordByWord", uiLanguage)}
           </button>
         </div>
       </div>
+
+      {/* Translations */}
       <div className="reading-control-group">
-        <span className="reading-control-label">{translationsLabel}</span>
+        <span className="reading-control-label">
+          {t("translations", uiLanguage)}
+        </span>
         <div className="reading-control-options">
           {ALL_LANGUAGES.map((lang) => (
             <label key={lang} className="lang-toggle">
@@ -74,7 +83,7 @@ export default function ReadingControls({
                 checked={visibleLanguages.has(lang)}
                 onChange={() => onToggleLanguage(lang)}
               />
-              <span>{capitalizeLanguage(lang)}</span>
+              <span>{LANGUAGE_DISPLAY_NAMES[lang]}</span>
             </label>
           ))}
         </div>

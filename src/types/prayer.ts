@@ -2,6 +2,8 @@
 export interface WordData {
   textIndopak: string;
   translation: string;
+  translation_ur?: string;
+  translation_hi?: string;
   transliteration: string;
 }
 
@@ -16,7 +18,6 @@ export interface VerseContent {
   verseKey: string; // e.g., "1:2"
   verseNumber: number;
   textIndopak: string;
-  isPartOfPrayer: boolean;
   words: WordData[];
   translations: {
     english: TranslationData;
@@ -28,14 +29,22 @@ export interface VerseContent {
 /** Supported language keys */
 export type Language = "english" | "urdu" | "hindi";
 
+/** UI language key — same set, used for app chrome / prayer metadata */
+export type UILanguage = Language;
+
 /** Prayer data shape (enriched from API) */
 export interface Prayer {
   id: string;
-  title: string;
-  tags: string[];
-  description: string;
+  title_en: string;
+  title_ur: string;
+  title_hi: string;
+  tags_en: string[];
+  tags_ur: string[];
+  tags_hi: string[];
+  description_en: string;
+  description_ur: string;
+  description_hi: string;
   verses: string; // reference string e.g., "1:2-7" or "2:201"
-  partialVerse?: string;
   surahName?: string;
   surahNumber?: number;
   content?: VerseContent[];
@@ -49,4 +58,5 @@ export interface QuranVerseProps {
   verseRange?: string;
   showWordByWord: boolean;
   visibleLanguages: Set<Language>;
+  uiLanguage: UILanguage;
 }

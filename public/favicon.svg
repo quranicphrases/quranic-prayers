@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <!-- Open book -->
+  <path d="M8 16 C8 14 10 12 14 12 L30 12 C31 12 32 13 32 14 L32 50 C32 49 31 48 30 48 L14 48 C10 48 8 46 8 44 Z" fill="#333333" opacity="0.9"/>
+  <path d="M56 16 C56 14 54 12 50 12 L34 12 C33 12 32 13 32 14 L32 50 C32 49 33 48 34 48 L50 48 C54 48 56 46 56 44 Z" fill="#555555" opacity="0.9"/>
+  <!-- Book spine -->
+  <line x1="32" y1="12" x2="32" y2="50" stroke="#1a1a1a" stroke-width="1.5"/>
+  <!-- Page lines left -->
+  <line x1="13" y1="20" x2="28" y2="20" stroke="#ffffff" stroke-width="1" opacity="0.4"/>
+  <line x1="13" y1="26" x2="28" y2="26" stroke="#ffffff" stroke-width="1" opacity="0.4"/>
+  <line x1="13" y1="32" x2="28" y2="32" stroke="#ffffff" stroke-width="1" opacity="0.4"/>
+  <line x1="13" y1="38" x2="28" y2="38" stroke="#ffffff" stroke-width="1" opacity="0.4"/>
+  <!-- Page lines right -->
+  <line x1="36" y1="20" x2="51" y2="20" stroke="#ffffff" stroke-width="1" opacity="0.4"/>
+  <line x1="36" y1="26" x2="51" y2="26" stroke="#ffffff" stroke-width="1" opacity="0.4"/>
+  <line x1="36" y1="32" x2="51" y2="32" stroke="#ffffff" stroke-width="1" opacity="0.4"/>
+  <line x1="36" y1="38" x2="51" y2="38" stroke="#ffffff" stroke-width="1" opacity="0.4"/>
+  <!-- Crescent + star above book -->
+  <path d="M28 8 A5 5 0 1 1 28 2 A3.5 3.5 0 1 0 28 8 Z" fill="#272727"/>
+  <polygon points="38,3 39,6 42,6 39.5,8 40.5,11 38,9 35.5,11 36.5,8 34,6 37,6" fill="#272727" transform="scale(0.6) translate(28,-2)"/>
+  <!-- Raised hands (palms up - dua gesture) -->
+  <path d="M18 52 C18 50 20 48 22 50 L24 54 C25 55 23 56 22 55 L18 52 Z" fill="#888888" opacity="0.7"/>
+  <path d="M46 52 C46 50 44 48 42 50 L40 54 C39 55 41 56 42 55 L46 52 Z" fill="#888888" opacity="0.7"/>
+</svg>

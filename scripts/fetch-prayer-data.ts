@@ -5,9 +5,11 @@
  * from Quran.com API v4, and writes enriched data back to src/data.json.
  *
  * Usage: npx tsx scripts/fetch-prayer-data.ts
+ *        npx tsx scripts/fetch-prayer-data.ts --update-wbw
  *
  * Idempotent — only fetches prayers missing `content` array.
- * Rate-limited at 100ms between API calls.
+ * --update-wbw: Updates word-by-word translations (Urdu/Hindi) for already-enriched prayers.
+ * Rate-limited at 150ms between API calls.
  */
 
 import fs from "node:fs";
@@ -33,7 +35,7 @@ interface EnrichedVerse {
   verseNumber: number;
   textIndopak: string;
   isPartOfPrayer: boolean;
-  words: { textIndopak: string; translation: string; transliteration: string }[];
+  words: { textIndopak: string; translation: string; translation_ur?: string; translation_hi?: string; transliteration: string }[];
   translations: {
     english: { text: string; translator: string };
     urdu: { text: string; translator: string };
@@ -151,9 +153,20 @@ async function fetchJson<T>(url: string): Promise<T> {
 /**
  * Fetch a single verse with word-by-word data.
  */
-async function fetchVerse(verseKey: string): Promise<QuranApiVerseResponse> {
-  const url = `${API_BASE}/verses/by_key/${verseKey}?language=en&words=true&word_fields=text_indopak,translation,transliteration&fields=text_indopak`;
+async function fetchVerse(verseKey: string, language = "en"): Promise<QuranApiVerseResponse> {
+  const url = `${API_BASE}/verses/by_key/${verseKey}?language=${encodeURIComponent(language)}&words=true&word_fields=text_indopak,translation,transliteration&fields=text_indopak`;
   return fetchJson<QuranApiVerseResponse>(url);
+}
+
+/**
+ * Fetch word-by-word translations for a verse in a given language.
+ * Returns an array of translation strings (one per word, excluding end markers).
+ */
+async function fetchWordTranslations(verseKey: string, language: string): Promise<string[]> {
+  const data = await fetchVerse(verseKey, language);
+  return data.verse.words
+    .filter((w) => w.char_type_name !== "end")
+    .map((w) => w.translation?.text || "");
 }
 
 /**
@@ -184,13 +197,26 @@ async function fetchVerseData(verseKey: string): Promise<EnrichedVerse> {
   const verse = verseData.verse;
 
   // Extract words (skip "end" type which is the verse-end marker)
-  const words = verse.words
+  const wordsEn = verse.words
     .filter((w) => w.char_type_name !== "end")
     .map((w) => ({
       textIndopak: w.text_indopak || "",
       translation: w.translation?.text || "",
       transliteration: w.transliteration?.text || "",
     }));
+
+  // Fetch Urdu & Hindi word translations
+  const urduWordTexts = await fetchWordTranslations(verseKey, "ur");
+  await sleep(RATE_LIMIT_MS);
+
+  const hindiWordTexts = await fetchWordTranslations(verseKey, "hi");
+  await sleep(RATE_LIMIT_MS);
+
+  const words = wordsEn.map((w, i) => ({
+    ...w,
+    translation_ur: urduWordTexts[i] || "",
+    translation_hi: hindiWordTexts[i] || "",
+  }));
 
   // Fetch translations
   const englishText = await fetchTranslation(TRANSLATION_IDS.english, verseKey);
@@ -216,6 +242,70 @@ async function fetchVerseData(verseKey: string): Promise<EnrichedVerse> {
   };
 }
 
+// ─── Update WBW ──────────────────────────────────────────────────────────────
+
+/**
+ * Update word-by-word translations (Urdu/Hindi) for already-enriched prayers.
+ * Does NOT re-fetch Arabic text or verse translations — only word translations.
+ */
+async function updateWbw() {
+  const dataPath = path.resolve(import.meta.dirname!, "../src/data.json");
+  const raw = fs.readFileSync(dataPath, "utf-8");
+  const prayers: RawPrayer[] = JSON.parse(raw);
+
+  console.log(`📖 Found ${prayers.length} prayers in data.json`);
+
+  let updatedCount = 0;
+  let skippedCount = 0;
+
+  for (const prayer of prayers) {
+    if (!prayer.content || prayer.content.length === 0) {
+      skippedCount++;
+      continue;
+    }
+
+    // Skip if first verse already has translation_ur
+    const firstWord = prayer.content[0]?.words?.[0];
+    if (firstWord && firstWord.translation_ur) {
+      skippedCount++;
+      continue;
+    }
+
+    console.log(`\n🔄 Updating WBW: ${prayer.id} (${prayer.verses})`);
+
+    try {
+      for (const verse of prayer.content) {
+        console.log(`  📥 Fetching WBW for ${verse.verseKey}...`);
+
+        const urduWordTexts = await fetchWordTranslations(verse.verseKey, "ur");
+        await sleep(RATE_LIMIT_MS);
+
+        const hindiWordTexts = await fetchWordTranslations(verse.verseKey, "hi");
+        await sleep(RATE_LIMIT_MS);
+
+        verse.words = verse.words.map((w, i) => ({
+          ...w,
+          translation_ur: urduWordTexts[i] || "",
+          translation_hi: hindiWordTexts[i] || "",
+        }));
+      }
+
+      updatedCount++;
+      console.log(`  ✅ Done`);
+    } catch (err) {
+      console.error(`  ❌ Error updating ${prayer.id}:`, err);
+    }
+  }
+
+  fs.writeFileSync(dataPath, JSON.stringify(prayers, null, 2), "utf-8");
+
+  console.log(`\n════════════════════════════════════════`);
+  console.log(`✅ Updated: ${updatedCount} prayers`);
+  console.log(`⏭️  Skipped: ${skippedCount}`);
+  console.log(`📁 Written to: ${dataPath}`);
+  console.log(`📏 File size: ${(fs.statSync(dataPath).size / 1024).toFixed(1)} KB`);
+}
+
 // ─── Main ────────────────────────────────────────────────────────────────────
 
 async function main() {
@@ -235,7 +325,7 @@ async function main() {
       continue;
     }
 
-    console.log(`\n🔄 Fetching: ${prayer.title} (${prayer.verses})`);
+    console.log(`\n🔄 Fetching: ${prayer.id} (${prayer.verses})`);
 
     try {
       const { surahNumber, verseKeys } = parseVerseRef(prayer.verses);
@@ -253,7 +343,7 @@ async function main() {
       fetchedCount++;
       console.log(`  ✅ Done (${prayer.content.length} verse(s))`);
     } catch (err) {
-      console.error(`  ❌ Error fetching ${prayer.title}:`, err);
+      console.error(`  ❌ Error fetching ${prayer.id}:`, err);
       // Don't remove partial data - allow re-run
     }
   }
@@ -268,7 +358,9 @@ async function main() {
   console.log(`📏 File size: ${(fs.statSync(dataPath).size / 1024).toFixed(1)} KB`);
 }
 
-main().catch((err) => {
+const isUpdateWbw = process.argv.includes("--update-wbw");
+
+(isUpdateWbw ? updateWbw() : main()).catch((err) => {
   console.error("Fatal error:", err);
   process.exit(1);
 });

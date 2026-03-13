@@ -3,21 +3,22 @@ import "./NoResults.css";
 
 interface NoResultsProps {
   onClearFilters: () => void;
+  noResultsText?: string;
+  clearFiltersText?: string;
 }
 
-/**
- * Component displayed when no prayers match the selected filters
- */
-const NoResults = memo(({ onClearFilters }: NoResultsProps) => {
-  return (
-    <div className="no-results">
-      <p>No prayers match the selected filters.</p>
-      <button className="clear-filters-btn" onClick={onClearFilters}>
-        Clear Filters
-      </button>
-    </div>
-  );
-});
+const NoResults = memo(
+  ({ onClearFilters, noResultsText, clearFiltersText }: NoResultsProps) => {
+    return (
+      <div className="no-results">
+        <p>{noResultsText ?? "No prayers match the selected filters."}</p>
+        <button className="clear-filters-btn" onClick={onClearFilters}>
+          {clearFiltersText ?? "Clear Filters"}
+        </button>
+      </div>
+    );
+  },
+);
 
 NoResults.displayName = "NoResults";
 

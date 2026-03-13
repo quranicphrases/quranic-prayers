@@ -62,12 +62,26 @@
   outline-offset: 2px;
 }
 
-/* Back to Top specific styles */
+/* Stable sizing across languages */
 .floating-btn.back-to-top {
+  min-width: 5.5rem;
+  justify-content: center;
+}
+
+.floating-btn.clear-filters-btn {
+  min-width: 7rem;
+  justify-content: center;
+}
+
+[data-ui-lang="urdu"] .floating-btn {
+  font-family: var(--font-family-urdu);
+  line-height: 1.5;
+}
   background: var(--btn-bg-default);
   border-color: var(--btn-border-default);
 }
 
+/* Back to Top specific styles */
 .floating-btn.back-to-top:hover {
   background: var(--btn-bg-hover);
   border-color: var(--btn-border-hover);

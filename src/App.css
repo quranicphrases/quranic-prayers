@@ -74,6 +74,23 @@ body {
   min-height: 100vh;
 }
 
+/* Urdu text styling — layout stays LTR, only text content gets RTL direction */
+[data-ui-lang="urdu"] .app-header h1,
+[data-ui-lang="urdu"] .app-footer p {
+  font-family: var(--font-family-urdu);
+  line-height: 1.5;
+  direction: rtl;
+  text-align: center;
+}
+
+[data-ui-lang="urdu"] .subtitle,
+[data-ui-lang="urdu"] .prayer-count-banner {
+  font-family: var(--font-family-urdu);
+  line-height: 2;
+  direction: rtl;
+  text-align: center;
+}
+
 .main-content {
   max-width: 1200px;
   margin: 0 auto;

@@ -32,6 +32,8 @@
 .mode-btn {
   display: inline-flex;
   align-items: center;
+  flex: 1;
+  justify-content: center;
   gap: 0.375rem;
   padding: 0.5rem 0.875rem;
   font-size: 0.875rem;
@@ -87,7 +89,8 @@
   border-color: var(--btn-border-hover);
 }
 
-.lang-toggle input[type="checkbox"] {
+.lang-toggle input[type="checkbox"],
+.lang-toggle input[type="radio"] {
   width: 1rem;
   height: 1rem;
   cursor: pointer;
@@ -96,4 +99,12 @@
 
 .lang-toggle span {
   line-height: 1;
+}
+
+/* Urdu font for settings labels/buttons */
+[data-ui-lang="urdu"] .reading-control-label,
+[data-ui-lang="urdu"] .lang-toggle span,
+[data-ui-lang="urdu"] .mode-btn {
+  font-family: var(--font-family-urdu);
+  line-height: 1.5;
 }

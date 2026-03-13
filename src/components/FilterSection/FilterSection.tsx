@@ -1,4 +1,7 @@
 import { memo } from "react";
+import type { UILanguage } from "../../types/prayer";
+import { getTagDisplay } from "../../constants/tagTranslations";
+import { t } from "../../constants/uiStrings";
 import "./FilterSection.css";
 
 interface FilterSectionProps {
@@ -8,6 +11,7 @@ interface FilterSectionProps {
   onClearAll: () => void;
   visibleCount: number;
   totalCount: number;
+  uiLanguage: UILanguage;
 }
 
 /**
@@ -21,6 +25,7 @@ const FilterSection = memo(
     onClearAll,
     visibleCount,
     totalCount,
+    uiLanguage,
   }: FilterSectionProps) => {
     const hasActiveFilters = selectedTags.size > 0;
 
@@ -28,43 +33,47 @@ const FilterSection = memo(
       <nav aria-label="Prayer filters">
         <section className="filter-section">
           <div className="filter-header">
-            <h2>Filter by Category</h2>
+            <h2>{t("filterByCategory", uiLanguage)}</h2>
           </div>
 
           <div className="filter-chips">
-            {allTags.map((tag) => (
+            {allTags.map((tagKey) => (
               <button
-                key={tag}
-                className={`filter-chip ${selectedTags.has(tag) ? "active" : ""}`}
-                onClick={() => onToggleTag(tag)}
-                aria-pressed={selectedTags.has(tag)}
+                key={tagKey}
+                className={`filter-chip ${selectedTags.has(tagKey) ? "active" : ""}`}
+                onClick={() => onToggleTag(tagKey)}
+                aria-pressed={selectedTags.has(tagKey)}
               >
-                {tag}
+                {getTagDisplay(tagKey, uiLanguage)}
               </button>
             ))}
             <button
               className={`filter-chip clear-filters-chip ${!hasActiveFilters ? "clear-filters-chip-disabled" : ""}`}
               onClick={hasActiveFilters ? onClearAll : undefined}
-              aria-label="Clear all filters"
+              aria-label={t("clearAll", uiLanguage)}
               aria-disabled={!hasActiveFilters}
             >
-              ✕ Clear All{hasActiveFilters ? ` (${selectedTags.size})` : ""}
+              ✕ {t("clearAll", uiLanguage)}
+              {hasActiveFilters ? ` (${selectedTags.size})` : ""}
             </button>
           </div>
 
           <div className="filter-results">
-            Showing {visibleCount} of {totalCount} prayers
+            {t("showingOf", uiLanguage, {
+              visible: visibleCount,
+              total: totalCount,
+            })}
           </div>
         </section>
       </nav>
     );
   },
   (prevProps, nextProps) => {
-    // Only re-render if these change
     return (
       prevProps.selectedTags === nextProps.selectedTags &&
       prevProps.visibleCount === nextProps.visibleCount &&
-      prevProps.allTags.length === nextProps.allTags.length
+      prevProps.allTags.length === nextProps.allTags.length &&
+      prevProps.uiLanguage === nextProps.uiLanguage
     );
   },
 );

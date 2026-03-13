@@ -2,8 +2,8 @@ import { useState, useMemo, useCallback } from "react";
 import type { Prayer } from "../types/prayer";
 
 /**
- * Custom hook for managing prayer filtering logic
- * Optimized to prevent unnecessary re-renders and network calls
+ * Custom hook for managing prayer filtering logic.
+ * Tags are always stored and compared using English canonical keys (tags_en).
  */
 export const usePrayerFilters = (prayers: Prayer[]) => {
   const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set());
@@ -12,7 +12,7 @@ export const usePrayerFilters = (prayers: Prayer[]) => {
   const allTags = useMemo(() => {
     const tagSet = new Set<string>();
     prayers.forEach((prayer) => {
-      prayer.tags.forEach((tag) => tagSet.add(tag));
+      prayer.tags_en.forEach((tag) => tagSet.add(tag));
     });
     return Array.from(tagSet).sort();
   }, [prayers]);
@@ -24,7 +24,7 @@ export const usePrayerFilters = (prayers: Prayer[]) => {
     
     // Prayer must have at least ONE of the selected tags (OR logic)
     return Array.from(selectedTags).some((selectedTag) =>
-      prayer.tags.includes(selectedTag)
+      prayer.tags_en.includes(selectedTag)
     );
   }, [selectedTags]);
 
