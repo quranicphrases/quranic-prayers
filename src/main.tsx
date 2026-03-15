@@ -4,6 +4,18 @@ import "./index.css";
 import App from "./App.tsx";
 import { LanguageProvider } from "./contexts/LanguageContext";
 
+// Register service worker with auto reload on update
+if ("serviceWorker" in navigator) {
+  let refreshing = false;
+  navigator.serviceWorker.addEventListener("controllerchange", () => {
+    if (refreshing) return;
+    refreshing = true;
+    window.location.reload();
+  });
+  navigator.serviceWorker
+    .register("/quranic-prayers/sw.js")
+}
+
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <LanguageProvider>

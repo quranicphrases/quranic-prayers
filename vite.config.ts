@@ -37,8 +37,10 @@ export default defineConfig({
     modulePreloadDynamic(),
     VitePWA({
       registerType: 'autoUpdate',
-      injectRegister: 'script-defer',
+      injectRegister: false,
       workbox: {
+        clientsClaim: true,
+        skipWaiting: true,
         globPatterns: ['**/*.{js,css,html,ico,png,svg,json,woff2}'],
         runtimeCaching: [
           {
