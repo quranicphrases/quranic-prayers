@@ -39,8 +39,6 @@ export interface Prayer {
   title_ur: string;
   title_hi: string;
   tags_en: string[];
-  tags_ur: string[];
-  tags_hi: string[];
   description_en: string;
   description_ur: string;
   description_hi: string;

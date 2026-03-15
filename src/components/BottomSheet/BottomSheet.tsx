@@ -1,6 +1,7 @@
 import { useEffect, useRef, useCallback, type ReactNode } from "react";
 import type { UILanguage } from "../../types/prayer";
 import { t } from "../../constants/uiStrings";
+import { useFocusTrap } from "../../hooks/useFocusTrap";
 import TabGroup from "../TabGroup";
 import "./BottomSheet.css";
 
@@ -39,6 +40,8 @@ export default function BottomSheet({
   const sheetRef = useRef<HTMLDivElement>(null);
   const firstFocusableRef = useRef<HTMLButtonElement>(null);
 
+  useFocusTrap(sheetRef, isOpen);
+
   // Handle escape key to close
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
@@ -56,14 +59,14 @@ export default function BottomSheet({
       // Focus the close button when opened
       setTimeout(() => firstFocusableRef.current?.focus(), 100);
       // Prevent body scroll when sheet is open
-      document.body.style.overflow = "hidden";
+      document.body.classList.add("no-scroll");
     } else {
-      document.body.style.overflow = "";
+      document.body.classList.remove("no-scroll");
     }
 
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "";
+      document.body.classList.remove("no-scroll");
     };
   }, [isOpen, handleKeyDown]);
 
@@ -89,7 +92,7 @@ export default function BottomSheet({
         className={`bottom-sheet ${isOpen ? "open" : ""}`}
         role="dialog"
         aria-modal="true"
-        aria-label={title || "Settings panel"}
+        aria-label={title || t("ariaSettingsPanel", uiLanguage)}
       >
         {/* Drag handle */}
         <div className="bottom-sheet-drag-handle" aria-hidden="true">
@@ -103,7 +106,7 @@ export default function BottomSheet({
             ref={firstFocusableRef}
             className="bottom-sheet-close"
             onClick={onClose}
-            aria-label="Close settings panel"
+            aria-label={t("ariaCloseSettings", uiLanguage)}
           >
             ✕
           </button>
@@ -116,6 +119,7 @@ export default function BottomSheet({
             activeTab={activeTab}
             onTabChange={onTabChange as (tab: string) => void}
             className="bottom-sheet-tabs"
+            ariaLabel={t("ariaSettingsTabs", uiLanguage)}
           />
         )}
 

@@ -3,6 +3,8 @@ import {
   useContext,
   useState,
   useEffect,
+  useTransition,
+  useCallback,
   type ReactNode,
 } from "react";
 import type { UILanguage } from "../types/prayer";
@@ -40,14 +42,21 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     return detectBrowserLanguage();
   });
 
-  const setUILanguage = (lang: UILanguage) => {
-    setUILanguageState(lang);
-    try {
-      localStorage.setItem(STORAGE_KEY, lang);
-    } catch {
-      // localStorage unavailable
-    }
-  };
+  const [, startTransition] = useTransition();
+
+  const setUILanguage = useCallback(
+    (lang: UILanguage) => {
+      startTransition(() => {
+        setUILanguageState(lang);
+      });
+      try {
+        localStorage.setItem(STORAGE_KEY, lang);
+      } catch {
+        // localStorage unavailable
+      }
+    },
+    [startTransition],
+  );
 
   // Update html lang attribute when language changes
   useEffect(() => {

@@ -1,15 +1,23 @@
-import { useState, useMemo, useEffect } from "react";
+import {
+  useState,
+  useMemo,
+  useEffect,
+  useCallback,
+  use,
+  lazy,
+  Suspense,
+} from "react";
 import "./App.css";
-import prayers from "./data.json";
 import type { Prayer, Language } from "./types/prayer";
+
+const prayersPromise = import("./data.json").then((m) => m.default as Prayer[]);
 import PrayerCard from "./components/PrayerCard";
-import FilterSection from "./components/FilterSection";
 import NoResults from "./components/NoResults";
-import ReadingControls from "./components/ReadingControls";
+import SettingsContent from "./components/SettingsContent";
 import { usePrayerFilters } from "./hooks/usePrayerFilters";
-import BottomSheet from "./components/BottomSheet";
+const BottomSheet = lazy(() => import("./components/BottomSheet"));
 import FloatingControls from "./components/FloatingControls";
-import FilterDrawer from "./components/FilterDrawer";
+const FilterDrawer = lazy(() => import("./components/FilterDrawer"));
 import { ALL_LANGUAGES, MOBILE_BREAKPOINT } from "./constants";
 import { t } from "./constants/uiStrings";
 import { useUILanguage } from "./contexts/LanguageContext";
@@ -20,6 +28,7 @@ import { useUILanguage } from "./contexts/LanguageContext";
  * All prayer data is bundled in data.json.
  */
 function App() {
+  const prayers = use(prayersPromise);
   const { uiLanguage, setUILanguage } = useUILanguage();
   const [wordByWord, setWordByWord] = useState(false);
   const [visibleLanguages, setVisibleLanguages] = useState<Set<Language>>(
@@ -33,16 +42,15 @@ function App() {
   // Track viewport size to determine which overlay to show
   const [isMobile, setIsMobile] = useState(() =>
     typeof window !== "undefined"
-      ? window.innerWidth < MOBILE_BREAKPOINT
+      ? window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`).matches
       : false,
   );
 
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
-    };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mql.addEventListener("change", handler);
+    return () => mql.removeEventListener("change", handler);
   }, []);
 
   // Custom hook for filter management
@@ -61,7 +69,7 @@ function App() {
     [visibleLanguages],
   );
 
-  const toggleLanguage = (lang: Language) => {
+  const toggleLanguage = useCallback((lang: Language) => {
     setVisibleLanguages((prev) => {
       const next = new Set(prev);
       if (next.has(lang)) {
@@ -72,7 +80,10 @@ function App() {
       }
       return next;
     });
-  };
+  }, []);
+
+  const openSettings = useCallback(() => setSettingsOpen(true), []);
+  const closeSettings = useCallback(() => setSettingsOpen(false), []);
 
   return (
     <div className="app-layout" data-ui-lang={uiLanguage}>
@@ -113,7 +124,7 @@ function App() {
         <main
           id="prayers-list"
           className="prayers-grid"
-          aria-label="Prayer list"
+          aria-label={t("ariaPrayerList", uiLanguage)}
         >
           {visibleCount === 0 && selectedTags.size > 0 && (
             <NoResults
@@ -127,13 +138,13 @@ function App() {
             let serial = 0;
             return prayers.map((prayer) => {
               const visible = isPrayerVisible(prayer as Prayer);
-              if (visible) serial++;
+              if (!visible) return null;
+              serial++;
               return (
                 <PrayerCard
                   key={prayer.id}
                   prayer={prayer as Prayer}
-                  isVisible={visible}
-                  serialNumber={visible ? serial : 0}
+                  serialNumber={serial}
                   showWordByWord={wordByWord}
                   visibleLanguages={stableVisibleLanguages}
                   onToggleTag={toggleTag}
@@ -162,63 +173,66 @@ function App() {
       {/* Floating controls - visible on all screens */}
       <FloatingControls
         activeFilters={selectedTags.size}
-        onOpenSettings={() => setSettingsOpen(true)}
+        onOpenSettings={openSettings}
         onClearFilters={clearAllFilters}
         uiLanguage={uiLanguage}
       />
 
       {/* Mobile (<600px): Bottom sheet */}
-      <BottomSheet
-        isOpen={isSettingsOpen && isMobile}
-        onClose={() => setSettingsOpen(false)}
-        title={t("settings", uiLanguage)}
-        activeTab={activeTab}
-        onTabChange={setActiveTab}
-        showTabs
-        uiLanguage={uiLanguage}
-      >
-        {activeTab === "filters" ? (
-          <FilterSection
+      {isSettingsOpen && isMobile && (
+        <Suspense fallback={null}>
+          <BottomSheet
+            isOpen
+            onClose={closeSettings}
+            title={t("settings", uiLanguage)}
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
+            showTabs
+            uiLanguage={uiLanguage}
+          >
+            <SettingsContent
+              activeTab={activeTab}
+              allTags={allTags}
+              selectedTags={selectedTags}
+              onToggleTag={toggleTag}
+              onClearAll={clearAllFilters}
+              visibleCount={visibleCount}
+              totalCount={prayers.length}
+              wordByWord={wordByWord}
+              onWordByWordChange={setWordByWord}
+              visibleLanguages={visibleLanguages}
+              onToggleLanguage={toggleLanguage}
+              uiLanguage={uiLanguage}
+              onUILanguageChange={setUILanguage}
+              id="mobile"
+            />
+          </BottomSheet>
+        </Suspense>
+      )}
+
+      {/* Desktop (≥600px): Filter drawer overlay */}
+      {isSettingsOpen && !isMobile && (
+        <Suspense fallback={null}>
+          <FilterDrawer
+            isOpen
+            onClose={closeSettings}
             allTags={allTags}
             selectedTags={selectedTags}
             onToggleTag={toggleTag}
             onClearAll={clearAllFilters}
             visibleCount={visibleCount}
             totalCount={prayers.length}
-            uiLanguage={uiLanguage}
-          />
-        ) : (
-          <ReadingControls
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
             wordByWord={wordByWord}
             onWordByWordChange={setWordByWord}
             visibleLanguages={visibleLanguages}
             onToggleLanguage={toggleLanguage}
             uiLanguage={uiLanguage}
             onUILanguageChange={setUILanguage}
-            id="mobile"
           />
-        )}
-      </BottomSheet>
-
-      {/* Desktop (≥600px): Filter drawer overlay */}
-      <FilterDrawer
-        isOpen={isSettingsOpen && !isMobile}
-        onClose={() => setSettingsOpen(false)}
-        allTags={allTags}
-        selectedTags={selectedTags}
-        onToggleTag={toggleTag}
-        onClearAll={clearAllFilters}
-        visibleCount={visibleCount}
-        totalCount={prayers.length}
-        activeTab={activeTab}
-        onTabChange={setActiveTab}
-        wordByWord={wordByWord}
-        onWordByWordChange={setWordByWord}
-        visibleLanguages={visibleLanguages}
-        onToggleLanguage={toggleLanguage}
-        uiLanguage={uiLanguage}
-        onUILanguageChange={setUILanguage}
-      />
+        </Suspense>
+      )}
     </div>
   );
 }

@@ -3,13 +3,9 @@
  * Usage: import { ALL_LANGUAGES, MOBILE_BREAKPOINT } from '@/constants';
  */
 
-export {
-  ALL_LANGUAGES,
-  LANGUAGE_DISPLAY_NAMES,
-  capitalizeLanguage,
-} from "./languages";
+export { ALL_LANGUAGES, LANGUAGE_DISPLAY_NAMES } from "./languages";
 
-export { MOBILE_BREAKPOINT, isMobileViewport } from "./breakpoints";
+export { MOBILE_BREAKPOINT } from "./breakpoints";
 
 export { t } from "./uiStrings";
 

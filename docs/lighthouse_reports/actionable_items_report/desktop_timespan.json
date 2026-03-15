@@ -1,0 +1,90 @@
+[
+  {
+    "id": "forced-reflow-insight",
+    "title": "Forced reflow",
+    "score": 0,
+    "displayValue": null,
+    "explanation": null,
+    "description": "A forced reflow occurs when JavaScript queries geometric properties (such as `offsetWidth`) after styles have been invalidated by a change to the DOM state. This can result in poor performance. Learn more about [forced reflows](https://developer.chrome.com/docs/performance/insights/forced-reflow) and possible mitigations.",
+    "category": "performance",
+    "details": {
+      "type": "list",
+      "items": [
+        {
+          "type": "table",
+          "headings": [
+            {
+              "key": "source",
+              "valueType": "source-location",
+              "label": "Top function call"
+            },
+            {
+              "key": "reflowTime",
+              "valueType": "ms",
+              "granularity": 1,
+              "label": "Total reflow time"
+            }
+          ],
+          "items": [
+            {
+              "source": {
+                "type": "source-location",
+                "url": "http://localhost:4173/quranic-prayers/assets/index-C3M-mnxI.js",
+                "urlProvider": "network",
+                "line": 2,
+                "column": 10327
+              },
+              "reflowTime": 73.335
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "headings": [
+            {
+              "key": "source",
+              "valueType": "source-location",
+              "label": "Source"
+            },
+            {
+              "key": "reflowTime",
+              "valueType": "ms",
+              "granularity": 1,
+              "label": "Total reflow time"
+            }
+          ],
+          "items": [
+            {
+              "source": {
+                "type": "source-location",
+                "url": "http://localhost:4173/quranic-prayers/assets/index-Cmcu5eGK.js",
+                "urlProvider": "network",
+                "line": 0,
+                "column": 713
+              },
+              "reflowTime": 73.335
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "interaction-to-next-paint",
+    "title": "Interaction to Next Paint",
+    "score": 0.99,
+    "displayValue": "80 ms",
+    "explanation": null,
+    "description": "Interaction to Next Paint measures page responsiveness, how long it takes the page to visibly respond to user input. [Learn more about the Interaction to Next Paint metric](https://web.dev/articles/inp).",
+    "category": "performance"
+  },
+  {
+    "id": "total-blocking-time",
+    "title": "Total Blocking Time",
+    "score": 0.99,
+    "displayValue": "70 ms",
+    "explanation": null,
+    "description": "Sum of all time periods between FCP and Time to Interactive, when task length exceeded 50ms, expressed in milliseconds. [Learn more about the Total Blocking Time metric](https://developer.chrome.com/docs/lighthouse/performance/lighthouse-total-blocking-time/).",
+    "category": "performance"
+  }
+]

@@ -1,9 +1,9 @@
 import { useEffect, useRef } from "react";
-import FilterSection from "../FilterSection";
 import TabGroup from "../TabGroup";
-import ReadingControls from "../ReadingControls";
+import SettingsContent from "../SettingsContent";
 import type { Language, UILanguage } from "../../types/prayer";
 import { t } from "../../constants/uiStrings";
+import { useFocusTrap } from "../../hooks/useFocusTrap";
 import "./FilterDrawer.css";
 
 /** Tab type for filters/reading options */
@@ -56,6 +56,8 @@ export default function FilterDrawer({
   const drawerRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
+  useFocusTrap(drawerRef, isOpen);
+
   const tabs = [
     { id: "filters", label: t("tabFilters", uiLanguage) },
     { id: "reading", label: t("tabReading", uiLanguage) },
@@ -76,14 +78,14 @@ export default function FilterDrawer({
   // Focus trap and body scroll lock
   useEffect(() => {
     if (isOpen) {
-      closeButtonRef.current?.focus();
-      document.body.style.overflow = "hidden";
+      document.body.classList.add("no-scroll");
+      requestAnimationFrame(() => closeButtonRef.current?.focus());
     } else {
-      document.body.style.overflow = "";
+      document.body.classList.remove("no-scroll");
     }
 
     return () => {
-      document.body.style.overflow = "";
+      document.body.classList.remove("no-scroll");
     };
   }, [isOpen]);
 
@@ -102,7 +104,7 @@ export default function FilterDrawer({
         className={`filter-drawer ${isOpen ? "open" : ""}`}
         role="dialog"
         aria-modal="true"
-        aria-label="Settings"
+        aria-label={t("ariaSettingsPanel", uiLanguage)}
       >
         {/* Header */}
         <div className="filter-drawer-header">
@@ -111,7 +113,7 @@ export default function FilterDrawer({
             ref={closeButtonRef}
             className="filter-drawer-close"
             onClick={onClose}
-            aria-label="Close settings drawer"
+            aria-label={t("ariaCloseSettings", uiLanguage)}
           >
             ✕
           </button>
@@ -123,31 +125,27 @@ export default function FilterDrawer({
           activeTab={activeTab}
           onTabChange={onTabChange as (tab: string) => void}
           className="filter-drawer-tabs"
+          ariaLabel={t("ariaSettingsTabs", uiLanguage)}
         />
 
         {/* Content */}
         <div className="filter-drawer-content" role="tabpanel">
-          {activeTab === "filters" ? (
-            <FilterSection
-              allTags={allTags}
-              selectedTags={selectedTags}
-              onToggleTag={onToggleTag}
-              onClearAll={onClearAll}
-              visibleCount={visibleCount}
-              totalCount={totalCount}
-              uiLanguage={uiLanguage}
-            />
-          ) : (
-            <ReadingControls
-              wordByWord={wordByWord}
-              onWordByWordChange={onWordByWordChange}
-              visibleLanguages={visibleLanguages}
-              onToggleLanguage={onToggleLanguage}
-              uiLanguage={uiLanguage}
-              onUILanguageChange={onUILanguageChange}
-              id="desktop"
-            />
-          )}
+          <SettingsContent
+            activeTab={activeTab}
+            allTags={allTags}
+            selectedTags={selectedTags}
+            onToggleTag={onToggleTag}
+            onClearAll={onClearAll}
+            visibleCount={visibleCount}
+            totalCount={totalCount}
+            wordByWord={wordByWord}
+            onWordByWordChange={onWordByWordChange}
+            visibleLanguages={visibleLanguages}
+            onToggleLanguage={onToggleLanguage}
+            uiLanguage={uiLanguage}
+            onUILanguageChange={onUILanguageChange}
+            id="desktop"
+          />
         </div>
       </div>
     </>

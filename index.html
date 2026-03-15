@@ -34,25 +34,23 @@
     />
     <meta
       property="og:description"
-      content="77 Quranic prayers with Arabic text, word-by-word breakdowns, and translations in English, Urdu and Hindi."
+      content="Quranic prayers with Arabic text, word-by-word breakdowns, and translations in English, Urdu and Hindi."
     />
     <meta property="og:url" content="https://quranicphrases.github.io/quranic-prayers/" />
-    <meta property="og:image" content="https://quranicphrases.github.io/quranic-prayers/og-image.png" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:locale:alternate" content="ur_PK" />
     <meta property="og:locale:alternate" content="hi_IN" />
 
     <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:card" content="summary" />
     <meta
       name="twitter:title"
       content="Quranic Prayers — Supplications from the Holy Quran"
     />
     <meta
       name="twitter:description"
-      content="77 Quranic prayers with Arabic text and translations in English, Urdu and Hindi."
+      content="Quranic prayers with Arabic text and translations in English, Urdu and Hindi."
     />
-    <meta name="twitter:image" content="https://quranicphrases.github.io/quranic-prayers/og-image.png" />
 
     <!-- Structured Data -->
     <script type="application/ld+json">
@@ -61,7 +59,7 @@
         "@type": "WebSite",
         "name": "Quranic Prayers",
         "url": "https://quranicphrases.github.io/quranic-prayers/",
-        "description": "Collection of 77 Quranic prayers with Arabic text, word-by-word translation, and translations in English, Urdu, and Hindi.",
+        "description": "Collection of Quranic prayers with Arabic text, word-by-word translation, and translations in English, Urdu, and Hindi.",
         "inLanguage": ["en", "ar", "ur", "hi"]
       }
     </script>
@@ -69,16 +67,20 @@
     <!-- Font Preloads -->
     <link rel="preload" href="/quranic-prayers/fonts/indopak-nastaleeq.woff2" as="font" type="font/woff2" crossorigin />
 
-    <!-- Google Fonts: Arabic, Urdu, Hindi, Devanagari -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Google Fonts: Arabic, Urdu, Hindi, Devanagari (non-blocking) -->
     <link
       href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Noto+Naskh+Arabic:wght@400;600&family=Noto+Nastaliq+Urdu:wght@400;600&family=Noto+Sans+Devanagari:wght@400;600&display=swap"
       rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
     />
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <h1>Quranic Prayers — Supplications from the Holy Quran</h1>
+      <p>A collection of supplications (duas) from the Holy Quran with Arabic text, word-by-word translation, and full translations in English, Urdu, and Hindi. Browse prayers by prophets including Ibrahim, Musa, Nuh, Yunus, and more.</p>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

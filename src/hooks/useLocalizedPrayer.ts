@@ -3,7 +3,6 @@ import type { Prayer, UILanguage } from "../types/prayer";
 export interface LocalizedPrayer {
   title: string;
   description: string;
-  tags: string[];
 }
 
 const LANG_SUFFIX: Record<UILanguage, "_en" | "_ur" | "_hi"> = {
@@ -18,6 +17,5 @@ export function getLocalizedPrayer(prayer: Prayer, lang: UILanguage): LocalizedP
   return {
     title: prayer[`title${s}`],
     description: prayer[`description${s}`],
-    tags: prayer[`tags${s}`],
   };
 }

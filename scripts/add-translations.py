@@ -5,7 +5,10 @@ Renames existing fields:
   title → title_en, description → description_en, tags → tags_en, partialVerse → partialVerse_en
 
 Adds new fields:
-  title_ur, title_hi, description_ur, description_hi, tags_ur, tags_hi, partialVerse_ur, partialVerse_hi
+  title_ur, title_hi, description_ur, description_hi, partialVerse_ur, partialVerse_hi
+
+Note: tags_ur and tags_hi are no longer generated here — tag translations
+are handled at runtime by tagTranslations.ts via getTagDisplay().
 
 Usage: python3 scripts/add-translations.py
 """
@@ -635,16 +638,18 @@ def main():
             p["description_hi"] = p["description_en"]
             print(f"  ⚠️  No translation for {pid}: {p['title_en']}")
 
-        # Translate tags
-        p["tags_ur"] = [TAG_UR.get(t, t) for t in p["tags_en"]]
-        p["tags_hi"] = [TAG_HI.get(t, t) for t in p["tags_en"]]
+        # Tag translations removed from data.json — now handled at runtime
+        # by tagTranslations.ts via getTagDisplay(). Keeping TAG_UR/TAG_HI
+        # dicts above for reference only.
+        # p["tags_ur"] = [TAG_UR.get(t, t) for t in p["tags_en"]]
+        # p["tags_hi"] = [TAG_HI.get(t, t) for t in p["tags_en"]]
 
     with open(DATA_PATH, "w") as f:
         json.dump(prayers, f, indent=2, ensure_ascii=False)
 
     print(f"\n✅ Updated {len(prayers)} prayers with Urdu and Hindi translations")
 
-    # Verify all tags were translated
+    # Verify all tags were translated (kept for reference; runtime uses tagTranslations.ts)
     all_en = set()
     for p in prayers:
         all_en.update(p["tags_en"])

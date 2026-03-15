@@ -15,11 +15,4 @@ export const LANGUAGE_DISPLAY_NAMES: Record<Language, string> = {
   hindi: "हिन्दी",
 };
 
-/**
- * Capitalize the first letter of a language key.
- * @param lang - Language key
- * @returns Capitalized language name
- */
-export function capitalizeLanguage(lang: Language): string {
-  return lang.charAt(0).toUpperCase() + lang.slice(1);
-}
+

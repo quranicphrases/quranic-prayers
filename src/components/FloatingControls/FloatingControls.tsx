@@ -41,7 +41,7 @@ export default function FloatingControls({
       <button
         className="floating-btn back-to-top"
         onClick={handleScrollToTop}
-        aria-label="Scroll to top"
+        aria-label={t("ariaScrollToTop", uiLanguage)}
       >
         ↑ <span className="floating-btn-text">{t("top", uiLanguage)}</span>
       </button>
@@ -50,7 +50,7 @@ export default function FloatingControls({
       <button
         className="fab"
         onClick={onOpenSettings}
-        aria-label="Open settings and filters"
+        aria-label={t("ariaOpenSettings", uiLanguage)}
       >
         <svg
           className="fab-icon"

@@ -1,0 +1,89 @@
+[
+  {
+    "id": "largest-contentful-paint",
+    "title": "Largest Contentful Paint",
+    "score": 0.99,
+    "displayValue": "0.7 s",
+    "explanation": null,
+    "description": "Largest Contentful Paint marks the time at which the largest text or image is painted. [Learn more about the Largest Contentful Paint metric](https://developer.chrome.com/docs/lighthouse/performance/lighthouse-largest-contentful-paint/)",
+    "category": "performance"
+  },
+  {
+    "id": "network-dependency-tree-insight",
+    "title": "Network dependency tree",
+    "score": 0,
+    "displayValue": null,
+    "explanation": null,
+    "description": "[Avoid chaining critical requests](https://developer.chrome.com/docs/performance/insights/network-dependency-tree) by reducing the length of chains, reducing the download size of resources, or deferring the download of unnecessary resources to improve page load.",
+    "category": "performance",
+    "details": {
+      "type": "list",
+      "items": [
+        {
+          "type": "list-section",
+          "value": {
+            "type": "network-tree",
+            "chains": {
+              "AF2B9522E6209BEA5F8352EF2FCFD917": {
+                "url": "http://localhost:4173/quranic-prayers/",
+                "navStartToEndTime": 37,
+                "transferSize": 1565,
+                "isLongest": true,
+                "children": {
+                  "45027.3": {
+                    "url": "http://localhost:4173/quranic-prayers/assets/index-BiVnQzyX.js",
+                    "navStartToEndTime": 53,
+                    "transferSize": 70473,
+                    "isLongest": true,
+                    "children": {
+                      "45027.12": {
+                        "url": "http://localhost:4173/quranic-prayers/assets/data-cX5Oo77P.js",
+                        "navStartToEndTime": 76,
+                        "transferSize": 108999,
+                        "isLongest": true,
+                        "children": {}
+                      }
+                    }
+                  },
+                  "45027.5": {
+                    "url": "http://localhost:4173/quranic-prayers/registerSW.js",
+                    "navStartToEndTime": 47,
+                    "transferSize": 435,
+                    "children": {}
+                  },
+                  "45027.4": {
+                    "url": "http://localhost:4173/quranic-prayers/assets/index-CHkKg20T.css",
+                    "navStartToEndTime": 47,
+                    "transferSize": 5906,
+                    "children": {}
+                  }
+                }
+              }
+            },
+            "longestChain": {
+              "duration": 76
+            }
+          }
+        },
+        {
+          "type": "list-section",
+          "title": "Preconnected origins",
+          "description": "[preconnect](https://developer.chrome.com/docs/lighthouse/performance/uses-rel-preconnect/) hints help the browser establish a connection earlier in the page load, saving time when the first request for that origin is made. The following are the origins that the page preconnected to.",
+          "value": {
+            "type": "text",
+            "value": "no origins were preconnected"
+          }
+        },
+        {
+          "type": "list-section",
+          "title": "Preconnect candidates",
+          "description": "Add [preconnect](https://developer.chrome.com/docs/lighthouse/performance/uses-rel-preconnect/) hints to your most important origins, but try to use no more than 4.",
+          "value": {
+            "type": "text",
+            "value": "No additional origins are good candidates for preconnecting"
+          }
+        }
+      ]
+    }
+  }
+]

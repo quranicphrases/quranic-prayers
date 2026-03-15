@@ -12,6 +12,14 @@
   border: 1px solid var(--border-color, #e0e0e0);
   will-change: auto;
   overflow: hidden;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 1000px;
+}
+
+@media (min-width: 600px) {
+  .prayer-card {
+    contain-intrinsic-size: auto 600px;
+  }
 }
 
 .prayer-card:hover {

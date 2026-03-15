@@ -35,7 +35,7 @@ const QuranVerse = memo(
         {/* ── Arabic Section — continuous flow, protected from browser translate ── */}
         <div
           className="qv-arabic-section"
-          aria-label="Quranic Arabic text"
+          aria-label={t("ariaQuranText", uiLanguage)}
           translate="no"
         >
           {showWordByWord ? (

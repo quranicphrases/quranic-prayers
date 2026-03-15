@@ -77,9 +77,6 @@
   font-family: var(--font-family-urdu);
   line-height: 1.5;
 }
-  background: var(--btn-bg-default);
-  border-color: var(--btn-border-default);
-}
 
 /* Back to Top specific styles */
 .floating-btn.back-to-top:hover {

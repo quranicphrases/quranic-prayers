@@ -2,12 +2,12 @@ import { memo } from "react";
 import type { Prayer, Language, UILanguage } from "../../types/prayer";
 import { getLocalizedPrayer } from "../../hooks/useLocalizedPrayer";
 import { getTagDisplay } from "../../constants/tagTranslations";
+import { t } from "../../constants/uiStrings";
 import QuranVerse from "../QuranVerse";
 import "./PrayerCard.css";
 
 interface PrayerCardProps {
   prayer: Prayer;
-  isVisible: boolean;
   serialNumber: number;
   showWordByWord: boolean;
   visibleLanguages: Set<Language>;
@@ -23,7 +23,6 @@ interface PrayerCardProps {
 const PrayerCard = memo(
   ({
     prayer,
-    isVisible,
     serialNumber,
     showWordByWord,
     visibleLanguages,
@@ -35,13 +34,7 @@ const PrayerCard = memo(
     const isRtl = uiLanguage === "urdu";
 
     return (
-      <article
-        className="prayer-card"
-        style={{
-          display: isVisible ? "block" : "none",
-        }}
-        data-prayer-id={prayer.id}
-      >
+      <article className="prayer-card" data-prayer-id={prayer.id}>
         <div className="prayer-header">
           <h2>
             <span className="prayer-serial">{serialNumber}.</span>{" "}
@@ -53,7 +46,9 @@ const PrayerCard = memo(
                 key={tagKey}
                 className={`tag-badge tag-badge-interactive${selectedTags.has(tagKey) ? " tag-badge-active" : ""}`}
                 onClick={() => onToggleTag(tagKey)}
-                aria-label={`Filter by ${tagKey}`}
+                aria-label={t("ariaFilterByTag", uiLanguage, {
+                  tag: getTagDisplay(tagKey, uiLanguage),
+                })}
               >
                 {getTagDisplay(tagKey, uiLanguage)}
               </button>
@@ -84,7 +79,6 @@ const PrayerCard = memo(
   (prevProps, nextProps) => {
     return (
       prevProps.prayer.id === nextProps.prayer.id &&
-      prevProps.isVisible === nextProps.isVisible &&
       prevProps.serialNumber === nextProps.serialNumber &&
       prevProps.showWordByWord === nextProps.showWordByWord &&
       prevProps.visibleLanguages === nextProps.visibleLanguages &&

@@ -29,6 +29,14 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  background: var(--bg-primary);
+  font-family: var(--font-family-base);
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+body.no-scroll {
+  overflow: hidden;
 }
 
 #root {

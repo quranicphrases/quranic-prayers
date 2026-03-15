@@ -12,9 +12,9 @@ const UI: Record<string, Record<UILanguage, string>> = {
     hindi: "क़ुरआनी दुआएँ",
   },
   appSubtitle: {
-    english: "دعائیں - Supplications from the Holy Quran",
-    urdu: "دعائیں - قرآنِ پاک سے دعائیں",
-    hindi: "दुआएँ - पवित्र क़ुरआन से दुआएँ",
+    english: "Supplications from the Holy Quran",
+    urdu: "قرآنِ پاک سے دعائیں",
+    hindi: "पवित्र क़ुरआन से दुआएँ",
   },
 
   // Prayer count banner
@@ -39,7 +39,7 @@ const UI: Record<string, Record<UILanguage, string>> = {
   // Settings
   settings: {
     english: "Settings",
-    urdu: "ترتیبات",
+    urdu: "سیٹنگز",
     hindi: "सेटिंग्स",
   },
 
@@ -51,20 +51,20 @@ const UI: Record<string, Record<UILanguage, string>> = {
   },
   tabReading: {
     english: "Reading Options",
-    urdu: "پڑھنے کے اختیارات",
-    hindi: "पढ़ने के विकल्प",
+    urdu: "پڑھنے کا طریقہ",
+    hindi: "पढ़ने का तरीक़ा",
   },
 
   // FilterSection
   filterByCategory: {
-    english: "Filter by Category",
-    urdu: "زمرے سے فلٹر",
-    hindi: "श्रेणी से फ़िल्टर",
+    english: "Filter Prayers By Category",
+    urdu: "زمرہ کے حساب سے دعا پڑھیں",
+    hindi: "श्रेणी के अनुसार दुआ पढ़ें",
   },
   clearAll: {
-    english: "Clear All",
-    urdu: "سب صاف",
-    hindi: "सब हटाएँ",
+    english: "Clear Filters",
+    urdu: "فلٹر ہٹائیں",
+    hindi: "फ़िल्टर हटाएँ",
   },
 
   // ReadingControls
@@ -90,15 +90,15 @@ const UI: Record<string, Record<UILanguage, string>> = {
   },
   appLanguage: {
     english: "App Language:",
-    urdu: "ایپ کی زبان:",
-    hindi: "ऐप की भाषा:",
+    urdu: "زبان:",
+    hindi: "भाषा:",
   },
 
   // FloatingControls
   clear: {
-    english: "Clear",
-    urdu: "صاف",
-    hindi: "हटाएँ",
+    english: "Clear Filters",
+    urdu: "فلٹر ہٹائیں",
+    hindi: "फ़िल्टर हटाएँ",
   },
   top: {
     english: "Top",
@@ -114,15 +114,15 @@ const UI: Record<string, Record<UILanguage, string>> = {
   },
   clearFilters: {
     english: "Clear Filters",
-    urdu: "فلٹرز صاف کریں",
+    urdu: "فلٹر ہٹائیں",
     hindi: "फ़िल्टर हटाएँ",
   },
 
   // QuranVerse footer
   openOnQuranCom: {
-    english: "Open in Quran.com ↗",
-    urdu: "\u2067Quran.com\u2069 میں کھولیں ↗",
-    hindi: "Quran.com में खोलें ↗",
+    english: "Explore on Quran.com ↗",
+    urdu: "\u2067Quran.com\u2069 پر مزید دیکھیں ↗",
+    hindi: "Quran.com पर और देखें ↗",
   },
 
   // Skip nav
@@ -130,6 +130,48 @@ const UI: Record<string, Record<UILanguage, string>> = {
     english: "Skip to prayers",
     urdu: "دعاؤں پر جائیں",
     hindi: "दुआओं पर जाएँ",
+  },
+
+  // Aria labels
+  ariaScrollToTop: {
+    english: "Scroll to top",
+    urdu: "اوپر جائیں",
+    hindi: "ऊपर जाएँ",
+  },
+  ariaOpenSettings: {
+    english: "Open settings and filters",
+    urdu: "ترتیبات اور فلٹرز کھولیں",
+    hindi: "सेटिंग्स और फ़िल्टर खोलें",
+  },
+  ariaCloseSettings: {
+    english: "Close settings panel",
+    urdu: "ترتیبات بند کریں",
+    hindi: "सेटिंग्स बंद करें",
+  },
+  ariaSettingsPanel: {
+    english: "Settings panel",
+    urdu: "ترتیبات پینل",
+    hindi: "सेटिंग्स पैनल",
+  },
+  ariaPrayerList: {
+    english: "Prayer list",
+    urdu: "دعاؤں کی فہرست",
+    hindi: "दुआओं की सूची",
+  },
+  ariaFilterByTag: {
+    english: "Filter by {tag}",
+    urdu: "{tag} سے فلٹر کریں",
+    hindi: "{tag} से फ़िल्टर करें",
+  },
+  ariaSettingsTabs: {
+    english: "Settings tabs",
+    urdu: "ترتیبات ٹیبز",
+    hindi: "सेटिंग्स टैब",
+  },
+  ariaQuranText: {
+    english: "Quranic Arabic text",
+    urdu: "قرآنی عربی متن",
+    hindi: "क़ुरआनी अरबी पाठ",
   },
 };
 
