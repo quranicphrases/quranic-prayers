@@ -7,7 +7,7 @@ import type { UILanguage } from "../types/prayer";
 const UI: Record<string, Record<UILanguage, string>> = {
   // Header
   appTitle: {
-    english: "Quranic Prayerz",
+    english: "Quranic Prayers",
     urdu: "قرآنی دعائیں",
     hindi: "क़ुरआनी दुआएँ",
   },
